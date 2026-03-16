@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>MoSu Furniture Rental</title>
+<style>
+:root {
+    --app-padding: 20px;
+    --card-radius: 32px;
+    --bg-color: #f2f2f7;
+    --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    --accent: #b5835a;
+}
+
+/* GLOBAL */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: var(--font-main);
+}
+
+/* HEADER */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 55px 0 15px 0;
+    background: rgba(242, 242, 247, 0.9);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    text-align: center;
+    z-index: 100;
+    border-bottom: 0.5px solid rgba(0,0,0,0.1);
+}
+.header h1 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1c1c1e;
+    text-transform: uppercase;
+}
+
+/* FEED */
+.feed {
+    margin-top: 110px;
+    padding: 0 var(--app-padding) 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* PRODUCT CARD */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+}
+
+/* IMAGE GALLERY */
+.image-gallery {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+}
+.image-gallery::-webkit-scrollbar { display: none; }
+.image-gallery img {
+    width: 100%;
+    height: 300px; /* fixed height for consistency */
+    object-fit: contain;
+    scroll-snap-align: start;
+}
+
+/* INFO PANEL */
+.info-panel {
+    padding: 24px;
+}
+.price {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1c1c1e;
+}
+.desc {
+    font-size: 0.9rem;
+    color: #636366;
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+/* DOTS */
+.dots-container {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 4px;
+    background: rgba(255,255,255,0.8);
+    padding: 5px 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+}
+.dot { width: 4px; height: 4px; background: #c7c7cc; border-radius: 50%; }
+.dot.active { background: var(--accent); }
+
+/* DESKTOP LAYOUT */
+@media (min-width: 768px) {
+    .feed {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+    }
+    .product-card {
+        width: 45%;
+        flex-direction: column;
+    }
+    .image-gallery img {
+        height: 350px;
+    }
+}
+@media (min-width: 1200px) {
+    .product-card {
+        width: 30%;
+    }
+    .image-gallery img {
+        height: 400px;
+    }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+    <h1>MoSu Furniture Rental</h1>
+</header>
+
+<div class="feed">
+
+    <section class="product-card">
+        <div class="image-gallery">
+            <img src="Bedside Table.png" alt="1a">
+        </div>
+        <div class="info-panel">
+            <div class="price">Rs.149/- </div>
+            <h2 class="title">Bedside Table</h2>
+            <p class="desc">Minimalist oak finish with silent-gliding drawers.</p>
+        </div>
+    </section>
+
+    <section class="product-card">
+        <div class="dots-container"><div class="dot active"></div><div class="dot"></div></div>
+        <div class="image-gallery">
+            <img src="Almirah 1.png" alt="2a">
+            <img src="Almirah 2.png" alt="2b">
+        </div>
+        <div class="info-panel">
+            <div class="price">Rs.299/- </div>
+            <h2 class="title">2 Door Almirah with Mirror</h2>
+            <p class="desc">Ergonomic premium velvet for ultimate comfort.</p>
+        </div>
+    </section>
+
+    <section class="product-card">
+        <div class="image-gallery">
+            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800" alt="3a">
+            <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800" alt="3b">
+        </div>
+        <div class="info-panel">
+            <div class="price">Rs. 450 / mo</div>
+            <h2 class="title">Nordic Study Desk</h2>
+            <p class="desc">Solid wood construction with cable management.</p>
+        </div>
+    </section>
+
+    <!-- Add remaining product-cards here -->
+
+</div>
+
+</body>
+</html>
