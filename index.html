@@ -53,6 +53,7 @@ body, html {
 
 /* PRODUCT CARD */
 .product-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     background: #fff;
@@ -66,13 +67,21 @@ body, html {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    height: 300px;
+    cursor: grab;
 }
+.image-gallery.active { cursor: grabbing; }
 .image-gallery::-webkit-scrollbar { display: none; }
 .image-gallery img {
+    flex: 0 0 100%;
     width: 100%;
-    height: 300px; /* fixed height for consistency */
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     scroll-snap-align: start;
+    user-select: none;
+    pointer-events: none;
 }
 
 /* INFO PANEL */
@@ -81,12 +90,12 @@ body, html {
 }
 .price {
     font-size: 0.9rem;
-    font-weight: 700;
+    font-weight: 400;
     margin-bottom: 4px;
 }
 .title {
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 400;
     margin: 0;
     color: #1c1c1e;
 }
@@ -108,8 +117,9 @@ body, html {
     padding: 5px 10px;
     border-radius: 20px;
     backdrop-filter: blur(8px);
+    z-index: 10;
 }
-.dot { width: 4px; height: 4px; background: #c7c7cc; border-radius: 50%; }
+.dot { width: 6px; height: 6px; background: #c7c7cc; border-radius: 50%; cursor: pointer; }
 .dot.active { background: var(--accent); }
 
 /* DESKTOP LAYOUT */
@@ -122,19 +132,19 @@ body, html {
     }
     .product-card {
         width: 45%;
-        flex-direction: column;
     }
-    .image-gallery img {
-        height: 350px;
-    }
+    .image-gallery { height: 350px; }
 }
 @media (min-width: 1200px) {
-    .product-card {
-        width: 30%;
-    }
-    .image-gallery img {
-        height: 400px;
-    }
+    .product-card { width: 30%; }
+    .image-gallery { height: 400px; }
+}
+
+/* HOVER EFFECT FOR DESKTOP */
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    transition: 0.3s;
 }
 </style>
 </head>
@@ -146,45 +156,146 @@ body, html {
 
 <div class="feed">
 
+    <!-- Bedside Table -->
     <section class="product-card">
         <div class="image-gallery">
-            <img src="Bedside Table.png" alt="1a">
+            <img src="Bedside Table.png">
         </div>
         <div class="info-panel">
             <div class="price">Rs.149/- </div>
             <h2 class="title">Bedside Table</h2>
-            <p class="desc">Minimalist oak finish with silent-gliding drawers.</p>
+            <p class="desc">Size: 1.25 * 1.25 (ft)</p>
         </div>
     </section>
 
+    <!-- Single Mattress-->
     <section class="product-card">
-        <div class="dots-container"><div class="dot active"></div><div class="dot"></div></div>
-        <div class="image-gallery">
-            <img src="Almirah 1.png" alt="2a">
-            <img src="Almirah 2.png" alt="2b">
+        <div style="height:65%" class="image-gallery">
+            <img src="Single Mattress.png?w=800" alt="Nordic Desk 1">
         </div>
         <div class="info-panel">
-            <div class="price">Rs.299/- </div>
+            <div class="price"> Rs.199/- </div>
+            <h2 class="title">Single Mattress</h2>
+            <p class="desc">Size: 3 * 6 (ft)</p>
+        </div>
+    </section>
+<!-- 2 Door Almirah with Mirror -->
+    <section class="product-card">
+        <div class="dots-container">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+        </div>
+        <div style="height:60%" class="image-gallery">
+            <img src="Almirah 1.png?w=800">
+            <img src="Almirah 2.png?w=800">
+        </div>
+        <div class="info-panel">
+            <div class="price">Rs.349/- </div>
             <h2 class="title">2 Door Almirah with Mirror</h2>
-            <p class="desc">Ergonomic premium velvet for ultimate comfort.</p>
+            <p class="desc">Size: 2.5 * 6.15 (ft)</p>
         </div>
     </section>
-
     <section class="product-card">
-        <div class="image-gallery">
-            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800" alt="3a">
-            <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=800" alt="3b">
+        <div style="height:60%" class="image-gallery">
+            <img src="Single Wooden Bed.png?w=800">
         </div>
         <div class="info-panel">
-            <div class="price">Rs. 450 / mo</div>
-            <h2 class="title">Nordic Study Desk</h2>
-            <p class="desc">Solid wood construction with cable management.</p>
+            <div class="price">Rs.349/- </div>
+            <h2 class="title">Wooden Single Bed With Storage</h2>
+            <p class="desc">Size: 3 * 6 (ft)</p>
+        </div>
+    </section>
+    <section class="product-card">
+        <div style="height:60%" class="image-gallery">
+            <img src="Premium Table and Chair Combo.png?w=800">
+        </div>
+        <div class="info-panel">
+            <div class="price">Rs.499/- </div>
+            <h2 class="title">Office Chair And Table</h2>
+            <p class="desc">Comfortable Chair with Head rest, arm rest and Lumbar support with premium table</p>
+        </div>
+    <section class="product-card">
+<div class="dots-container">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+        </div>
+        <div style="height:60%" class="image-gallery">
+            <img src="Fridge 1.png?w=800">
+            <img src="Fridge 2.png?w=800">
+        </div>
+        <div class="info-panel">
+            <div class="price">Rs.599/- </div>
+            <h2 class="title">Refrigerator or Fridge</h2>
+            <p class="desc">Capacity: 184 Litre</p>
+        </div>
+    </section>
+    <section class="product-card">
+        <div style="height:60%" class="image-gallery">
+            <img src="Washing Machine.png?w=800">
+        </div>
+        <div class="info-panel">
+            <div class="price">Rs.599/- </div>
+            <h2 class="title">Washing Machine Fully Automatic Top Load</h2>
+            <p class="desc">Capacity: 6 - 7 KG</p>
+        </div>
+    </section>
+    <section class="product-card">
+        <div style="height:60%" class="image-gallery">
+            <img src="Sofa Set.png?w=800">
+        </div>
+        <div class="info-panel">
+            
+            <h2 class="title">Sofa Set and Table</h2> <br>
+<div class="price">2 Seater Sofa: Rs.499/- </div>
+<div class="price">3 Seater Sofa: Rs.599/- </div>
+<div class="price">5 Seater Sofa: Rs.899/- </div>
+<div class="price">Table Add on : Rs.149/- </div>
         </div>
     </section>
 
-    <!-- Add remaining product-cards here -->
 
 </div>
+
+<script>
+// Function to update dots on scroll
+function updateDots(gallery, dots) {
+    const index = Math.round(gallery.scrollLeft / gallery.clientWidth);
+    dots.forEach((dot,i)=>dot.classList.toggle('active', i === index));
+}
+
+// Add scroll + drag + clickable dots
+document.querySelectorAll('.product-card').forEach(card => {
+    const gallery = card.querySelector('.image-gallery');
+    const dots = card.querySelectorAll('.dot');
+    if(!gallery) return;
+
+    // On scroll update dots
+    gallery.addEventListener('scroll', ()=> updateDots(gallery,dots));
+
+    // Mouse drag for desktop
+    let isDown=false, startX, scrollLeft;
+    gallery.addEventListener('mousedown', e => {
+        isDown = true; gallery.classList.add('active');
+        startX = e.pageX - gallery.offsetLeft;
+        scrollLeft = gallery.scrollLeft;
+    });
+    gallery.addEventListener('mouseleave', ()=>{ isDown=false; gallery.classList.remove('active'); });
+    gallery.addEventListener('mouseup', ()=>{ isDown=false; gallery.classList.remove('active'); });
+    gallery.addEventListener('mousemove', e=>{
+        if(!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - gallery.offsetLeft;
+        gallery.scrollLeft = scrollLeft - (x - startX)*2;
+    });
+
+    // Click on dots
+    dots.forEach((dot,i)=>{
+        dot.addEventListener('click', ()=>{
+            gallery.scrollTo({left: i*gallery.clientWidth, behavior: 'smooth'});
+        });
+    });
+});
+</script>
 
 </body>
 </html>
