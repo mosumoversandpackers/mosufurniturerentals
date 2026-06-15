@@ -19,7 +19,19 @@
     gap:10px;
     margin-top:15px;
 }
+.field-group{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+    min-width:220px;
+}
 
+.field-group label{
+    font-size:13px;
+    margin-bottom:6px;
+    color:#636366;
+    font-weight:600;
+}
 .order-input{
     flex:1;
     min-width:180px;
@@ -48,41 +60,59 @@
 #orderTable{
     width:100%;
     border-collapse:collapse;
-    margin-top:20px;
+    margin-top:15px;
+    table-layout:fixed;
 }
 
+#orderTable th,
+#orderTable td{
+    padding:4px;
+    font-size:10px;
+    text-align:center;
+}
+
+#orderTable th:nth-child(1){
+    width:8%;
+}
+
+#orderTable th:nth-child(2){
+    width:15%;
+}
+
+#orderTable th:nth-child(3){
+    width:42%;
+}
+
+#orderTable th:nth-child(4){
+    width:20%;
+}
+
+#orderTable th:nth-child(5){
+    width:15%;
+}
 #orderTable th{
     background:#f2f2f7;
-    padding:12px;
-    text-align:left;
-}
-
-#orderTable td{
-    padding:12px;
-    border-top:1px solid #eee;
 }
 
 .qty-edit{
-    width:70px;
+    width:30px;
+    padding:1px;
+    font-size:10px;
+    height:20px;
+    border-radius:4px;
     text-align:center;
-    border:1px solid #ddd;
-    border-radius:10px;
-    padding:6px;
 }
 
 .delete-btn{
-    background:#ff3b30;
-    color:#fff;
-    border:none;
-    padding:8px 12px;
-    border-radius:10px;
-    cursor:pointer;
+    padding:3px 5px;
+    font-size:9px;
+    border-radius:6px;
 }
 
 .total-box{
-    margin-top:15px;
+    margin-top:10px;
     text-align:right;
-    font-size:22px;
+    font-size:18px;
     font-weight:700;
     color:#20a7db;
 }
@@ -267,10 +297,17 @@ body, html {
 </section>
     <section class="order-section">
 
-    <h2 class="title">Order Now</h2>
+<h2 class="title">
+    Estimate Sheet
+</h2>
 
-    <div class="order-controls">
+<p class="desc" style="margin-top:10px;">
+    Please screenshot & share with your delivery address to place an order.
+</p>
+  <div class="order-controls">
 
+    <div class="field-group">
+        <label>Select Product</label>
         <select id="productSelect" class="order-input">
             <option value="">Select Product</option>
 
@@ -300,14 +337,17 @@ body, html {
 
             <option value="Center Table" data-price="2400">Center Table - ₹2400</option>
         </select>
+</div>
 
+    <div class="field-group">
+        <label>Qty</label>
         <input
             type="number"
             min="1"
             value="1"
             id="qty"
-            class="order-input"
-            placeholder="Qty">
+            class="order-input">
+    </div>
 
         <button class="order-btn" onclick="addItem()">
             Add Item
@@ -318,15 +358,15 @@ body, html {
     <div style="overflow-x:auto;">
         <table id="orderTable">
 
-            <thead>
-                <tr>
-                    <th>S.No</th>
-                    <th>Qty</th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+        <thead>
+<tr>
+    <th>#</th>
+    <th>Qty</th>
+    <th>Product</th>
+    <th>₹</th>
+    <th>Del</th>
+</tr>
+</thead>
 
             <tbody id="orderBody"></tbody>
 
