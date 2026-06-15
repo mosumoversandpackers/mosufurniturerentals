@@ -5,6 +5,87 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <p style="color: #20a7db;">MoSu Furniture </p>
 <style>
+    .order-section{
+    background:#fff;
+    border-radius:24px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.04);
+}
+
+.order-controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:15px;
+}
+
+.order-input{
+    flex:1;
+    min-width:180px;
+    border:none;
+    background:#f2f2f7;
+    padding:14px;
+    border-radius:16px;
+    font-size:14px;
+    outline:none;
+}
+
+.order-btn{
+    border:none;
+    background:#20a7db;
+    color:white;
+    padding:14px 22px;
+    border-radius:18px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.order-btn:hover{
+    opacity:.9;
+}
+
+#orderTable{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+#orderTable th{
+    background:#f2f2f7;
+    padding:12px;
+    text-align:left;
+}
+
+#orderTable td{
+    padding:12px;
+    border-top:1px solid #eee;
+}
+
+.qty-edit{
+    width:70px;
+    text-align:center;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:6px;
+}
+
+.delete-btn{
+    background:#ff3b30;
+    color:#fff;
+    border:none;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.total-box{
+    margin-top:15px;
+    text-align:right;
+    font-size:22px;
+    font-weight:700;
+    color:#20a7db;
+}
     .info-section {
     background: #fff;
     border-radius: 24px;
@@ -183,6 +264,79 @@ body, html {
         <li>Corporate Discount available </li>
         <li>We Craft Premium furniture in any design, color & customization to your demand</li>
     </ul>
+</section>
+    <section class="order-section">
+
+    <h2 class="title">Order Now</h2>
+
+    <div class="order-controls">
+
+        <select id="productSelect" class="order-input">
+            <option value="">Select Product</option>
+
+            <option value="Pillow" data-price="250">Pillow - ₹250</option>
+            <option value="Cotton Mattress Thin" data-price="750">Cotton Mattress Thin - ₹750</option>
+            <option value="Cotton Mattress Thick" data-price="850">Cotton Mattress Thick - ₹850</option>
+            <option value="Essential Mattress" data-price="2300">Essential Mattress - ₹2300</option>
+            <option value="Premium Mattress" data-price="3000">Premium Mattress - ₹3000</option>
+
+            <option value="Armless Chair" data-price="700">Armless Chair - ₹700</option>
+            <option value="Arm Chair" data-price="850">Arm Chair - ₹850</option>
+            <option value="Spider Chair" data-price="950">Spider Chair - ₹950</option>
+            <option value="Heavy Duty Chair" data-price="970">Heavy Duty Chair - ₹970</option>
+
+            <option value="Bedside Table" data-price="1250">Bedside Table - ₹1250</option>
+
+            <option value="2 Door Shoe Rack" data-price="3200">2 Door Shoe Rack - ₹3200</option>
+            <option value="3 Door Shoe Rack" data-price="3800">3 Door Shoe Rack - ₹3800</option>
+
+            <option value="Single Wooden Bed" data-price="5200">Single Wooden Bed - ₹5200</option>
+
+            <option value="Queen Double Bed" data-price="10500">Queen Double Bed - ₹10500</option>
+
+            <option value="2 Seater Sofa" data-price="5800">2 Seater Sofa - ₹5800</option>
+            <option value="3 Seater Sofa" data-price="9500">3 Seater Sofa - ₹9500</option>
+            <option value="5 Seater Sofa" data-price="13500">5 Seater Sofa - ₹13500</option>
+
+            <option value="Center Table" data-price="2400">Center Table - ₹2400</option>
+        </select>
+
+        <input
+            type="number"
+            min="1"
+            value="1"
+            id="qty"
+            class="order-input"
+            placeholder="Qty">
+
+        <button class="order-btn" onclick="addItem()">
+            Add Item
+        </button>
+
+    </div>
+
+    <div style="overflow-x:auto;">
+        <table id="orderTable">
+
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Qty</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="orderBody"></tbody>
+
+        </table>
+    </div>
+
+    <div id="grandTotal" class="total-box">
+        Total : ₹0
+    </div>
+
 </section>
     <section class="product-card">
         <div class="image-gallery">
@@ -484,6 +638,120 @@ document.querySelectorAll('.product-card').forEach(card => {
         });
     });
 });
+    let grandTotal = 0;
+
+function refreshSNo() {
+
+    document.querySelectorAll("#orderBody tr")
+        .forEach((row,index)=>{
+            row.cells[0].innerText=index+1;
+        });
+}
+
+function recalculateTotal() {
+
+    grandTotal = 0;
+
+    document.querySelectorAll("#orderBody tr")
+        .forEach(row=>{
+
+            const qty =
+                parseInt(
+                    row.querySelector(".qty-edit").value
+                ) || 0;
+
+            const unitPrice =
+                parseInt(row.dataset.price);
+
+            const amount = qty * unitPrice;
+
+            row.querySelector(".price-cell")
+                .innerHTML =
+                "₹" + amount.toLocaleString();
+
+            grandTotal += amount;
+        });
+
+    document.getElementById("grandTotal")
+        .innerHTML =
+        "Total : ₹" + grandTotal.toLocaleString();
+}
+
+function addItem(){
+
+    const product =
+        document.getElementById("productSelect");
+
+    if(product.selectedIndex === 0){
+        alert("Select Product");
+        return;
+    }
+
+    const option =
+        product.options[product.selectedIndex];
+
+    const name =
+        option.value;
+
+    const unitPrice =
+        parseInt(option.dataset.price);
+
+    const qty =
+        parseInt(
+            document.getElementById("qty").value
+        ) || 1;
+
+    const row =
+        document.createElement("tr");
+
+    row.dataset.price = unitPrice;
+
+    row.innerHTML = `
+        <td>0</td>
+
+        <td>
+            <input
+                type="number"
+                min="1"
+                value="${qty}"
+                class="qty-edit">
+        </td>
+
+        <td>${name}</td>
+
+        <td class="price-cell">
+            ₹${(qty*unitPrice).toLocaleString()}
+        </td>
+
+        <td>
+            <button class="delete-btn">
+                Delete
+            </button>
+        </td>
+    `;
+
+    row.querySelector(".qty-edit")
+        .addEventListener(
+            "input",
+            recalculateTotal
+        );
+
+    row.querySelector(".delete-btn")
+        .addEventListener(
+            "click",
+            ()=>{
+                row.remove();
+                refreshSNo();
+                recalculateTotal();
+            }
+        );
+
+    document.getElementById("orderBody")
+        .appendChild(row);
+
+    refreshSNo();
+    recalculateTotal();
+}
 </script>
 
 </body>
