@@ -3,8 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>MoSu Furniture Rental</title>
+<p style="color: #20a7db;">MoSu Furniture </p>
 <style>
+    .order-section{
+    background:#fff;
+    border-radius:24px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.04);
+}
+
+.order-controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:15px;
+}
+.field-group{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+    min-width:220px;
+}
+
+.field-group label{
+    font-size:13px;
+    margin-bottom:6px;
+    color:#636366;
+    font-weight:600;
+}
+.order-input{
+    flex:1;
+    min-width:180px;
+    border:none;
+    background:#f2f2f7;
+    padding:14px;
+    border-radius:16px;
+    font-size:14px;
+    outline:none;
+}
+
+.order-btn{
+    border:none;
+    background:#20a7db;
+    color:white;
+    padding:14px 22px;
+    border-radius:18px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.order-btn:hover{
+    opacity:.9;
+}
+
+#orderTable{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+    table-layout:fixed;
+}
+
+#orderTable th,
+#orderTable td{
+    padding:4px;
+    font-size:10px;
+    text-align:center;
+}
+
+#orderTable th:nth-child(1){
+    width:8%;
+}
+
+#orderTable th:nth-child(2){
+    width:15%;
+}
+
+#orderTable th:nth-child(3){
+    width:42%;
+}
+
+#orderTable th:nth-child(4){
+    width:20%;
+}
+
+#orderTable th:nth-child(5){
+    width:15%;
+}
+#orderTable th{
+    background:#f2f2f7;
+}
+
+.qty-edit{
+    width:30px;
+    padding:1px;
+    font-size:10px;
+    height:20px;
+    border-radius:4px;
+    text-align:center;
+}
+
+.delete-btn{
+    padding:3px 5px;
+    font-size:9px;
+    border-radius:6px;
+}
+
+.total-box{
+    margin-top:10px;
+    text-align:right;
+    font-size:18px;
+    font-weight:700;
+    color:#20a7db;
+}
     .info-section {
     background: #fff;
     border-radius: 24px;
@@ -170,12 +281,12 @@ body, html {
 <body>
 
 <header class="header">
-    <h1>MoSu Furniture Rental</h1>
+    <h1>MoSu Furniture</h1>
 </header>
 
 <div class="feed">
 <section class="info-section">
-    <ul>
+  <ul>
         <li><strong>Guaranteed lowest rates</strong> in the market and No hidden charges</li>
         <li><strong>Deposit</strong>: No Deposit for working professionals</li>
         <li><strong>Lock-in period</strong>: 3 months | Per Day Basis rentals also available on request.
@@ -183,13 +294,37 @@ body, html {
         <li>Ping us if you need any item not listed in catalog</li>
     </ul>
 </section>
-    <!-- Bedside Table -->
+   
+        
+    </section>
+       
+    <section class="product-card">
+        <div class="dots-container">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+             <span class="dot"></span>
+        </div>
+        <div style="height:65%" class="image-gallery">
+            <img src="Essential Mattress.png?w=800" alt="Nordic Desk 1">
+             <img src="Single Mattress.png?w=800" alt="Nordic Desk 1">
+         <img src="Elite Mattress.png?w=800" alt="Nordic Desk 1">
+        </div>
+        <div class="info-panel">
+            <h2 class="title">Mattress | 2 Years Warranty </h2>
+           <div class="desc">Standard | Size: 3 * 6 (ft) | 4 Inch: Rs.2300 | 5 Inch: Rs.2500/- </div>
+            <div class="desc">Premium | Size: 3 * 6 (ft) | Rs.3200/-</div>
+            <div class="desc">Elite   | Size: 3 * 6 (ft) | Rs.3900/-</div>
+            <div class="desc">Mattress of all sizes available. Ping us your requirement.</div>
+
+        </div>
+    </section>
+       
     <section class="product-card">
         <div class="image-gallery">
             <img src="Bedside Table.png">
         </div>
         <div class="info-panel">
-            <div class="price">Rs.149/- </div>
+            <div class="price">Rs.1450/- </div>
             <h2 class="title">Bedside Table</h2>
             <p class="desc">Size: 1.25 * 1.25 (ft)</p>
         </div>
@@ -205,47 +340,20 @@ body, html {
 
         </div>
         <div class="info-panel">
-            <h2 class="title">Shoe Rack</h2>
-            <div class="desc">2 Door | Size: 2 * 3 (ft) | Rs.199/-</div>
-            <div class="desc">3 Door | Size: 3 * 3 (ft) | Rs.249/-</div>
+            <h2 class="title">Small Almirah or Shoe Rack</h2>
+            <div class="desc">2 Door | Size: 2 * 3 (ft) | Rs.3600/-</div>
+            <div class="desc">3 Door | Size: 3 * 3 (ft) | Rs.4200/-</div>
         </div>
     </section>
-
-    <!-- Single Mattress-->
-    <section class="product-card">
-        <div style="height:65%" class="image-gallery">
-            <img src="Single Mattress.png?w=800" alt="Nordic Desk 1">
-        </div>
-        <div class="info-panel">
-            <div class="price"> Rs.199/- </div>
-            <h2 class="title">Single Mattress</h2>
-            <p class="desc">Size: 3 * 6 (ft)</p>
-        </div>
-    </section>
+    
     <section class="product-card">
         <div style="height:60%" class="image-gallery">
             <img src="Single Wooden Bed.png?w=800">
         </div>
         <div class="info-panel">
-            <div class="price">Rs.299/- </div>
+            <div class="price">Rs.5200/- </div>
             <h2 class="title">Wooden Single Bed With Storage</h2>
             <p class="desc">Size: 3 * 6 (ft)</p>
-        </div>
-    </section>
-        <section class="product-card">
-                 <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-        </div>
-        <div style="height:60%" class="image-gallery">
-            <img src="Queen Double Bed.png?w=800">
-        <img src="Queen Mattress.png?w=800">
-        </div>
-        <div class="info-panel">
-            <h2 class="title">Queen Double Bed With Storage and Mattress</h2>
-            <div class="desc">Size: 5 * 6 (ft)</div>
-            <div class="desc"> Only Bed: Rs.599/-</div>
-            <div class="desc"> Bed with Mattress: Rs.799/-</div>
         </div>
     </section>
 <!-- 2 Door Almirah with Mirror -->
@@ -253,69 +361,130 @@ body, html {
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+
         </div>
         <div style="height:60%" class="image-gallery">
             <img src="Almirah 1.png?w=800">
             <img src="Almirah 2.png?w=800">
+            <img src="Wooden Almirah 1.png?w=800">
+            <img src="Wooden Almirah 2.png?w=800">
         </div>
         <div class="info-panel">
-            <div class="price">Rs.349/- </div>
             <h2 class="title">2 Door Almirah with Mirror</h2>
-            <p class="desc">Size: 2.5 * 6.15 (ft)</p>
+            <p class="desc">Size: 2 * 6.15 (ft)   | Rs.4800/- </p>
+            <p class="desc">Size: 2.5 * 6.15 (ft) | Rs.5500/-</p>
+
         </div>
-    </section>
+   
+        </section>
     <section class="product-card">
-<div class="dots-container">
+        <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
         </div>
         <div style="height:60%" class="image-gallery">
-            <img src="Fridge 1.png?w=800">
-            <img src="Fridge 2.png?w=800">
+            <img src="Dressing1.png?w=800">
+            <img src="Dressing2.png?w=800">
         </div>
         <div class="info-panel">
-            <div class="price">Rs.599/- </div>
-            <h2 class="title">Refrigerator or Fridge</h2>
-            <p class="desc">Capacity: 184 Litre</p>
+            <h2 class="title">Dressing Table</h2>
+             <p class="desc">With Storage | Size: 1.4 * 6.5 (ft) | Rs.4800/- </p>
+            <p class="desc">With Storage, Light & Both side slabs  Size:  2 * 6.5 (ft)  | Rs.6500/-</p>
+            <p class="desc"></p>
         </div>
-    </section>
+   
+        </section>
     <section class="product-card">
-        <div style="height:60%" class="image-gallery">
-            <img src="Washing Machine.png?w=800">
-        </div>
-        <div class="info-panel">
-            <div class="price">Rs.599/- </div>
-            <h2 class="title">Washing Machine Fully Automatic Top Load</h2>
-            <p class="desc">Capacity: 6 - 7 KG</p>
-        </div>
-    </section>
-        <section class="product-card">
             <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
+             <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+              <span class="dot"></span>
+
+
+
         </div>
-        <div style="height:60%" class="image-gallery">
-            <img src="Premium Table and Chair Combo.png?w=800">
-            <img src="Black Office Chair.png?w=800">
+        <div style="height:55%" class="image-gallery">
+           <img src="Lined Mesh Chair.jpeg">
+           <img src="Low Mesh Chair.jpeg">
+            <img src="Medium Mesh Chair.jpeg">
+            <img src="Medium Mesh Chair Back.jpeg">
+            <img src="Headrest Chair.jpeg">
+            <img src="Headrest Chair Back.jpeg">
+
         </div>
         <div class="info-panel">
-            <h2 class="title">Office Chair and Table</h2>
-            <div class="desc">Black Office Chair | Rs.149/- </div>
-            <div class="desc">Grey Office Chair  | Rs.199/- </div>
-            <div class="desc">Table | Rs.199/- </div>
+            <h2 class="title">Black Office Chair | 2 Years Warranty</h2>
+            <div class="desc">Basic Mesh    | Rs.2600/-</div>
+            <div class="desc">Lined Mesh    | Rs.2800/-</div>
+            <div class="desc">Zig Zag Mesh  | Rs.3000/-</div>
+            <div class="desc">Lumbar Mesh   | Rs.3800/-</div>
+            <div class="desc">Headrest Mesh | Rs.4800/-</div>
         </div>
-        </section>
-        </section>
-        <section class="product-card">
+    </section>
+     <section class="product-card">
         <div style="height:60%" class="image-gallery">
-            <img src="Table and Chair.png?w=800">
+             <img src="Basic Table.png?w=800">
         </div>
         <div class="info-panel">
-              <div class="price">Rs.699/- </div>
-            <h2 class="title">Premium Table with 4 Chairs - Dining Set</h2>
-            <p class="desc">Table Size : 3.6 * 2.2 (ft)</p>
+            <h2 class="title">Table</h2>
+          <div class="desc">Size: 2 * 3 (ft) | Height: 2.5 ft | Rs.2200/- </div>
+        <div class="desc">Size: 2.5 * 4 (ft) | Height: 2.5 ft | Rs.2700/-</div>
+
         </div>
         </section>
+       <section class="product-card">
+        <div class="dots-container">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+        </div>
+        <div style="height:60%" class="image-gallery">
+             <img src="Computer One.png?w=800">
+            <img src="ComputerTable2.png?w=800">
+
+        </div>
+        <div class="info-panel">
+            <h2 class="title">Computer Table</h2>
+        <div class="desc">One Side Storage <br>
+            Size: 2 * 3 (ft) | Height:2.5 ft | Rs.3500/-</div>
+        <div class="desc">Both Side Storage <br>
+            Size: 2 * 4 (ft) | Height:2.5 ft | Rs.4500/-</div>
+        </div>
+        </section>
+     <section class="product-card">
+        <div class="dots-container">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+        </div>
+        <div style="height:60%" class="image-gallery">
+            <img src="Coffee Table 1.png?w=800">
+            <img src="Coffee Table2.png?w=800">
+        </div>
+        <div class="info-panel">
+            <h2 class="title">Coffee Table</h2>
+          <div class="desc">Essential<br> 
+              Size: 1.5 * 2.5 (ft) | Height: 1.5 ft | Rs.2250/-</div>
+           <div class="desc">Classic<br> 
+            Size: 1.5 * 2.5 (ft) | Height: 1.5 ft | Rs.2800/-</div>
+        </div>
+   
+        </section>
+            <section class="product-card">
+        <div style="height:60%" class="image-gallery">
+            <img src="Queen Double Bed.png?w=800">
+        </div>
+        <div class="info-panel">
+            <h2 class="title">Double Bed With Storage</h2>
+            <div class="desc">Size: 5 * 6 (ft) | Rs.11500/- </div>
+            <div class="desc">Size: 6 * 6 (ft) | Rs.12500/- </div>
+            <div class="desc">Size: 6 * 6.5 (ft) | Rs.13500/- </div>
+        </div>
+    </section>
+        
     <section class="product-card">
         <div class="dots-container">
             <span class="dot active"></span>
@@ -330,40 +499,24 @@ body, html {
             
     <h2 class="title">Sofa Set and Table</h2> 
     <div class="desc">Choose a Sofa color (1–10) from next Image</div>
-<div class="desc">2 Seater Sofa | Rs.499/- </div>
-<div class="desc">3 Seater Sofa | Rs.599/- </div>
-<div class="desc">5 Seater Sofa | Rs.899/- </div>
-<div class="desc">Table Add on  | Rs.149/- </div>
+<div class="desc">2 Seater Sofa | Rs.5800/- </div>
+<div class="desc">3 Seater Sofa | Rs.9800/- </div>
+<div class="desc">5 Seater Sofa | Rs.13800/- </div>
+<div class="desc"> Center Table | Rs.2400/- </div>
         </div>
     </section>
-        <section class="product-card">
+    <section class="product-card">
         <div style="height:60%" class="image-gallery">
-            <img src="Monitor.jpg?w=800">
+             <img src="TV Unit.png?w=800">
         </div>
         <div class="info-panel">
-                    
-<div class="price">Rs.499/- </div>
-            <h2 class="title">Monitor</h2>
-<p class="desc">Full HD, IPS Panel, 24 Inch, 100Hz Refresh</p>
-        </div>
-    </section>
-     <section class="product-card">
-        <div style="height:60%" class="image-gallery">
-            <img src="Television.jpg?w=800">
-        </div>
-        <div class="info-panel">
-            <h2 class="title">TV or Television</h2>
-            <p>Ultra HD</p>
-<p class="desc">43 Inch: Rs.1199/-</p>
-<p class="desc">55 Inch: Rs.1499/-</p>
-<p>LED</p>
-            <p class="desc"></p>
-<p class="desc">43 Inch: Rs.1299/-</p>
-<p class="desc">55 Inch:  Rs.1799/-</p>
-        </div>
-    </section>
+            <h2 class="title">TV Unit</h2>
+        <div class="desc">Size: 5 ft  | Rs.5800/- </div>
+         <div class="desc">Size: 6 ft | Rs.6800/- </div>
 
-
+        </div>
+        </section>
+    
 </div>
 
 <script>
@@ -405,6 +558,120 @@ document.querySelectorAll('.product-card').forEach(card => {
         });
     });
 });
+    let grandTotal = 0;
+
+function refreshSNo() {
+
+    document.querySelectorAll("#orderBody tr")
+        .forEach((row,index)=>{
+            row.cells[0].innerText=index+1;
+        });
+}
+
+function recalculateTotal() {
+
+    grandTotal = 0;
+
+    document.querySelectorAll("#orderBody tr")
+        .forEach(row=>{
+
+            const qty =
+                parseInt(
+                    row.querySelector(".qty-edit").value
+                ) || 0;
+
+            const unitPrice =
+                parseInt(row.dataset.price);
+
+            const amount = qty * unitPrice;
+
+            row.querySelector(".price-cell")
+                .innerHTML =
+                "₹" + amount.toLocaleString();
+
+            grandTotal += amount;
+        });
+
+    document.getElementById("grandTotal")
+        .innerHTML =
+        "Total : ₹" + grandTotal.toLocaleString();
+}
+
+function addItem(){
+
+    const product =
+        document.getElementById("productSelect");
+
+    if(product.selectedIndex === 0){
+        alert("Select Product");
+        return;
+    }
+
+    const option =
+        product.options[product.selectedIndex];
+
+    const name =
+        option.value;
+
+    const unitPrice =
+        parseInt(option.dataset.price);
+
+    const qty =
+        parseInt(
+            document.getElementById("qty").value
+        ) || 1;
+
+    const row =
+        document.createElement("tr");
+
+    row.dataset.price = unitPrice;
+
+    row.innerHTML = `
+        <td>0</td>
+
+        <td>
+            <input
+                type="number"
+                min="1"
+                value="${qty}"
+                class="qty-edit">
+        </td>
+
+        <td>${name}</td>
+
+        <td class="price-cell">
+            ₹${(qty*unitPrice).toLocaleString()}
+        </td>
+
+        <td>
+            <button class="delete-btn">
+                Delete
+            </button>
+        </td>
+    `;
+
+    row.querySelector(".qty-edit")
+        .addEventListener(
+            "input",
+            recalculateTotal
+        );
+
+    row.querySelector(".delete-btn")
+        .addEventListener(
+            "click",
+            ()=>{
+                row.remove();
+                refreshSNo();
+                recalculateTotal();
+            }
+        );
+
+    document.getElementById("orderBody")
+        .appendChild(row);
+
+    refreshSNo();
+    recalculateTotal();
+}
 </script>
 
 </body>
