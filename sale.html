@@ -88,7 +88,30 @@
     font-size:14px;
     outline:none;
 }
+.price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    border: 1px solid #ccc;
+}
 
+.price-table th,
+.price-table td {
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.price-table th {
+    font-weight: bold;
+    background: #f5f5f5;
+}
+
+.price-table .addon-heading td {
+    font-weight: bold;
+    text-align: left;
+    background: #f5f5f5;
+}
 .order-btn{
     border:none;
     background:#20a7db;
@@ -512,12 +535,50 @@ body, html {
             <img src="Wooden Almirah 1.png?w=800">
             <img src="Wooden Almirah 2.png?w=800">
         </div>
-        <div class="info-panel">
-            <h2 class="title">2 Door Almirah with Mirror</h2>
-            <div class="desc">Size: 2 * 6.15 (ft)   | Rs.4800/- 
-            <br>Size: 2.5 * 6.15 (ft) | Rs.5500/-</div>
+      <div class="info-panel">
+        <h2 class="title">2 Door Almirah with Mirror</h2>
 
-        </div>
+        <table class="price-table">
+            <thead>
+                <tr>
+                    <th>Size</th>
+                    <th>Base Price</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>2 × 6.15 (ft)</td>
+                    <td>Rs.4600/-</td>
+                </tr>
+                <tr>
+                    <td>2.5 × 6.15 (ft)</td>
+                    <td>R.5200/-</td>
+                </tr>
+
+                <tr class="addon-heading">
+                    <td colspan="2">Available Add-ons (If Required)</td>
+                </tr>
+
+                <tr>
+                    <td>Horizontal Rack</td>
+                    <td>₹400</td>
+                </tr>
+                <tr>
+                    <td>Drawer at Base</td>
+                    <td>₹550</td>
+                </tr>
+                <tr>
+                    <td>Vertical Partition</td>
+                    <td>₹450</td>
+                </tr>
+                <tr>
+                    <td>Mirror</td>
+                    <td>₹450</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
    
         </section>
     <section class="product-card">
