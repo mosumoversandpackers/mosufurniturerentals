@@ -300,18 +300,25 @@ body {
         padding: 20px;
     }
 
-    /* Mobile product image height */
-    .image-gallery,
+    /* Keep card width/layout original */
+    .product-card {
+        width: 100%;
+    }
+
+    /* Only increase image visibility */
+    .image-gallery {
+        height: 300px;
+    }
+
     .image-gallery.gallery-65,
     .image-gallery.gallery-60 {
-        height: 360px;
+        height: 300px;
     }
 
     .image-gallery.gallery-55 {
-        height: 330px;
+        height: 275px;
     }
 }
-
 @media (prefers-reduced-motion: reduce) {
     .product-card,
     .image-gallery {
