@@ -6,7 +6,20 @@
 <p style="color: #20a7db;">MoSu Furniture </p>
 <style>
     @media (max-width: 600px) {
+        /* Mattress title + table spacing */
+
+        .mattress-title {
+    margin: 0 0 10px 0;
+}
+
+.mattress-title + .price-table {
+    margin-top: 0;
+}
+
+/* Keep table same background as card */
     .price-table {
+        background: #fff;
+    margin: 0;
         width: 100%;
         font-size: 12px;
         border: 1px solid #ccc;
@@ -130,7 +143,7 @@ body, html {
 
 /* INFO PANEL */
 .info-panel {
-    padding: 24px;
+    padding: 14px 24px 24px;
 }
 .price {
     font-size: 0.9rem;
@@ -221,16 +234,6 @@ body, html {
             <p class="desc">Off White | Wenge | Walnut | Wooden </p>
         </div>
     </section>
-        <section class="product-card">
-        <div class="image-gallery">
-            <img src="Pillow.png" loading="lazy" decoding="async">
-        </div>
-        <div class="info-panel">
-            <div class="price">Rs.250/- </div>
-            <h2 class="title">Pillow</h2>
-        </div>
-    </section>
-      
     <section class="product-card">
         <div class="dots-container">
             <span class="dot active"></span>
@@ -243,8 +246,8 @@ body, html {
          <img src="Elite Mattress.png?w=800" loading="lazy" decoding="async">
         </div>
         <div class="info-panel">
-            <h2 class="title">Mattress | 2 Years Warranty </h2>
-
+            <h2 class="title mattress-title">Mattress | 2 Years Warranty </h2>
+<br>
         <table class="price-table">
     <thead>
         <tr>
