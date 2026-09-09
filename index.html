@@ -3,72 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<p style="color: #20a7db;">MoSu Furniture </p>
 <style>
-    @media (max-width: 600px) {
-        /* Mattress title + table spacing */
-
-        .mattress-title {
-    margin: 0 0 10px 0;
-}
-
-.mattress-title + .price-table {
-    margin-top: 0;
-}
-
-/* Keep table same background as card */
-    .price-table {
-        background: #fff;
-    margin: 0;
-        width: 100%;
-        font-size: 12px;
-        border: 1px solid #ccc;
-    }
-
-    .price-table th,
-    .price-table td {
-        border: 1px solid #ccc;
-        padding: 5px 4px;
-    }
-}
-.price-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ccc;
-}
-
-.price-table th,
-.price-table td {
-        text-align: left;
-    border: 1px solid #ccc;
-    padding: 8px;
-}
-    .price-table th {
-    background: #f5f5f5;
-    font-weight: 600;
-}
-     .price-table {
-        margin-bottom: 15px;
-    }
-    .info-section {
-    background: #fff;
-    border-radius: 24px;
-    padding: 20px;
-    margin-bottom: 10px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
-}
-
-.info-section ul {
-    margin: 0;
-    padding-left: 18px;
-}
-
-.info-section li {
-    font-size: 0.9rem;
-    color: #1c1c1e;
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
 :root {
     --app-padding: 20px;
     --card-radius: 32px;
@@ -78,7 +13,7 @@
 }
 
 /* GLOBAL */
-body, html {
+html, body {
     margin: 0;
     padding: 0;
     background-color: var(--bg-color);
@@ -90,7 +25,7 @@ body, html {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 55px 0 15px 0;
+    padding: 55px 0 15px;
     background: rgba(242, 242, 247, 0.9);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -115,6 +50,38 @@ body, html {
     gap: 24px;
 }
 
+/* CATEGORY TABS */
+.category-tabs {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    gap: 6px;
+    padding: 4px;
+    background: #e5e5ea;
+    border-radius: 14px;
+    margin: 0;
+}
+
+.category-tab {
+    flex: 1;
+    border: 0;
+    padding: 11px 14px;
+    border-radius: 11px;
+    background: transparent;
+    color: #636366;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.category-tab.active {
+    background: #fff;
+    color: #1c1c1e;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
 /* PRODUCT CARD */
 .product-card {
     position: relative;
@@ -125,6 +92,10 @@ body, html {
     overflow: hidden;
     box-shadow: 0 8px 30px rgba(0,0,0,0.04);
     transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card.hidden {
+    display: none !important;
 }
 
 /* IMAGE GALLERY */
@@ -171,6 +142,54 @@ body, html {
     line-height: 1.4;
 }
 
+/* INFO SECTION */
+.info-section {
+    background: #fff;
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 0;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+}
+.info-section ul {
+    margin: 0;
+    padding-left: 18px;
+}
+.info-section li {
+    font-size: 0.9rem;
+    color: #1c1c1e;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+.info-section li:last-child {
+    margin-bottom: 0;
+}
+
+/* TABLE */
+.price-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+.price-table th,
+.price-table td {
+    text-align: left;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+.price-table th {
+    background: #f5f5f5;
+    font-weight: 600;
+}
+
+/* MATTRESS */
+.mattress-title {
+    margin: 0 0 10px;
+}
+.mattress-title + .price-table {
+    margin-top: 0;
+}
+
 /* DOTS */
 .dots-container {
     position: absolute;
@@ -184,7 +203,13 @@ body, html {
     backdrop-filter: blur(8px);
     z-index: 10;
 }
-.dot { width: 6px; height: 6px; background: #c7c7cc; border-radius: 50%; cursor: pointer; }
+.dot {
+    width: 6px;
+    height: 6px;
+    background: #c7c7cc;
+    border-radius: 50%;
+    cursor: pointer;
+}
 .dot.active { background: var(--accent); }
 
 /* GALLERY HEIGHTS */
@@ -192,7 +217,7 @@ body, html {
 .gallery-60 { height: 60%; }
 .gallery-55 { height: 55%; }
 
-/* DESKTOP LAYOUT */
+/* DESKTOP */
 @media (min-width: 768px) {
     .feed {
         flex-direction: row;
@@ -200,23 +225,56 @@ body, html {
         justify-content: center;
         gap: 24px;
     }
+
+    .info-section,
+    .category-tabs {
+        flex: 0 0 100%;
+    }
+
     .product-card {
         width: 45%;
     }
-    .image-gallery { height: 350px; }
+
+    .image-gallery {
+        height: 350px;
+    }
 }
+
 @media (min-width: 1200px) {
     .product-card { width: 30%; }
     .image-gallery { height: 400px; }
 }
 
-/* HOVER EFFECT FOR DESKTOP */
+/* HOVER */
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 40px rgba(0,0,0,0.08);
 }
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .price-table {
+        background: #fff;
+        margin: 0 0 15px;
+        width: 100%;
+        font-size: 12px;
+        border: 1px solid #ccc;
+    }
+
+    .price-table th,
+    .price-table td {
+        border: 1px solid #ccc;
+        padding: 5px 4px;
+    }
+
+    .category-tab {
+        font-size: 13px;
+        padding: 10px 8px;
+    }
+}
 </style>
 </head>
+
 <body>
 
 <header class="header">
@@ -224,117 +282,111 @@ body, html {
 </header>
 
 <div class="feed">
-<section class="info-section">
-  <ul>
-        <li><strong>Guaranteed lowest rates</strong> in the market and No hidden charges</li>
-        <li><strong>Deposit</strong>: No Deposit for working professionals</li>
-        <li><strong>Lock-in period</strong>: 3 months | Per Day Basis rentals also available on request.
-        <li><strong>Shipping charges</strong>: Based on delivery location</li>
-        <li>Ping us if you need any item not listed in catalog</li>
-    </ul>
-</section>
-    <section class="product-card">
+
+    <section class="info-section">
+        <ul>
+            <li><strong>Guaranteed lowest rates</strong> in the market and No hidden charges</li>
+            <li><strong>Deposit</strong>: No Deposit for working professionals</li>
+            <li><strong>Lock-in period</strong>: 3 months | Per Day Basis rentals also available on request.</li>
+            <li><strong>Shipping charges</strong>: Based on delivery location</li>
+            <li>Ping us if you need any item not listed in catalog</li>
+        </ul>
+    </section>
+
+    <!-- CATEGORY TABS -->
+    <div class="category-tabs">
+        <button class="category-tab active" data-category="furniture">
+            All Furniture
+        </button>
+        <button class="category-tab" data-category="electronics">
+            Electronics
+        </button>
+    </div>
+
+    <!-- ==================== FURNITURE ITEMS ==================== -->
+
+    <section class="product-card furniture-item">
         <div class="image-gallery">
             <img src="Color Options.jpeg" decoding="async">
         </div>
         <div class="info-panel">
             <h2 class="title">Choose Your Color</h2>
-            <p class="desc">Off White | Wenge | Walnut | Wooden </p>
+            <p class="desc">Off White | Wenge | Walnut | Wooden</p>
         </div>
     </section>
-    <section class="product-card">
+
+    <section class="product-card furniture-item">
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
-             <span class="dot"></span>
+            <span class="dot"></span>
         </div>
         <div class="image-gallery gallery-65">
             <img src="Essential Mattress.png?w=800" loading="lazy" decoding="async">
-             <img src="Single Mattress.png?w=800" loading="lazy" decoding="async">
-         <img src="Elite Mattress.png?w=800" loading="lazy" decoding="async">
+            <img src="Single Mattress.png?w=800" loading="lazy" decoding="async">
+            <img src="Elite Mattress.png?w=800" loading="lazy" decoding="async">
         </div>
         <div class="info-panel">
-            <h2 class="title mattress-title">Mattress | 2 Years Warranty </h2>
-<br>
-        <table class="price-table">
-    <thead>
-        <tr>
-            <th>Variant</th>
-            <th>3 × 6 (ft)</th>
-            <th>5 × 6 (ft)</th>
-            <th>6 × 6 (ft)</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <tr>
-            <td>Standard 4"</td>
-            <td>Rs.149</td>
-            <td>Rs.249</td>
-           <td>Rs.299</td>
-        </tr>
-
-        <tr>
-            <td>Standard 5"</td>
-          <td>Rs.199</td>
-           <td>Rs.299</td>
-           <td>Rs.349</td>
-        </tr>
-
-        <tr>
-            <td>Premium</td>
-          <td>Rs.249</td>
-           <td>Rs.349</td>
-           <td>Rs.449</td>
-        </tr>
-
-        <tr>
-            <td>Elite</td>
-          <td>Rs.299</td>
-           <td>Rs.449</td>
-            <td>Rs.499</td>
-        </tr>
-    </tbody>
-</table>
+            <h2 class="title mattress-title">Mattress | 2 Years Warranty</h2>
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>Variant</th>
+                        <th>3 × 6 (ft)</th>
+                        <th>5 × 6 (ft)</th>
+                        <th>6 × 6 (ft)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Standard 4"</td><td>Rs.149</td><td>Rs.249</td><td>Rs.299</td></tr>
+                    <tr><td>Standard 5"</td><td>Rs.199</td><td>Rs.299</td><td>Rs.349</td></tr>
+                    <tr><td>Premium</td><td>Rs.249</td><td>Rs.349</td><td>Rs.449</td></tr>
+                    <tr><td>Elite</td><td>Rs.299</td><td>Rs.449</td><td>Rs.499</td></tr>
+                </tbody>
+            </table>
         </div>
-    
-    <section class="product-card">
+    </section>
+
+    <section class="product-card furniture-item">
         <div class="image-gallery">
             <img src="Bedside Table.png" loading="lazy" decoding="async">
         </div>
         <div class="info-panel">
-            <div class="price">Rs.149/- </div>
+            <div class="price">Rs.149/-</div>
             <h2 class="title">Bedside Table</h2>
             <p class="desc">Size: 1.25 * 1.25 (ft)</p>
         </div>
     </section>
-        <section class="product-card">
-            <div class="dots-container">
+
+    <section class="product-card furniture-item">
+        <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
         </div>
         <div class="image-gallery">
             <img src="2 Door Shoe.png" loading="lazy" decoding="async">
             <img src="3 Door Shoe.png" loading="lazy" decoding="async">
-
         </div>
         <div class="info-panel">
             <h2 class="title">Small Almirah or Shoe Rack</h2>
-            <div class="desc">2 Door | Size: 2 * 3 (ft) | Rs.249/-
-            <br>3 Door | Size: 3 * 3 (ft) | Rs.349/-</div>
+            <div class="desc">
+                2 Door | Size: 2 * 3 (ft) | Rs.249/-<br>
+                3 Door | Size: 3 * 3 (ft) | Rs.349/-
+            </div>
         </div>
     </section>
-    <section class="product-card">
+
+    <section class="product-card furniture-item">
         <div class="image-gallery gallery-60">
-             <img src="Single Wooden Bed.png?w=800" loading="lazy" decoding="async">
+            <img src="Single Wooden Bed.png?w=800" loading="lazy" decoding="async">
         </div>
         <div class="info-panel">
             <h2 class="title">Wooden Single Bed</h2>
-             <div class="desc">Size: 3 * 6 (ft) | Rs.399/-</div>
+            <div class="desc">Size: 3 * 6 (ft) | Rs.399/-</div>
         </div>
     </section>
-<!-- 2 Door Almirah with Mirror -->
-    <section class="product-card">
+
+    <section class="product-card furniture-item">
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
@@ -343,107 +395,119 @@ body, html {
             <img src="Almirah 1.png?w=800" loading="lazy" decoding="async">
             <img src="Almirah 2.png?w=800" loading="lazy" decoding="async">
         </div>
-         <div class="info-panel">
-            <h2 class="title">2 Door Almirah with Mirror<</h2>
-            <div class="desc">Size: 2 × 6.15 (ft) | Rs.349/-
-            <br>Size: 2.5 × 6.15 (ft) | Rs.399/-</div>
+        <div class="info-panel">
+            <h2 class="title">2 Door Almirah with Mirror</h2>
+            <div class="desc">
+                Size: 2 × 6.15 (ft) | Rs.349/-<br>
+                Size: 2.5 × 6.15 (ft) | Rs.399/-
+            </div>
         </div>
+    </section>
 
-        </section>
-    <section class="product-card">
+    <section class="product-card furniture-item">
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
             <span class="dot"></span>
-
         </div>
         <div class="image-gallery gallery-60">
             <img src="Dressing1.png?w=800" loading="lazy" decoding="async">
             <img src="Dressing2.png?w=800" loading="lazy" decoding="async">
             <img src="Dressing Table with Slab.png?w=800" loading="lazy" decoding="async">
-
         </div>
         <div class="info-panel">
             <h2 class="title">Dressing Table</h2>
-             <div class="desc">Classic | Size: 1.5 * 6.5 (ft) | Rs.299/-
-            <br>Premium | Size: 2 * 6.5 (ft) | Rs.399/-  </div>
+            <div class="desc">
+                Classic | Size: 1.5 * 6.5 (ft) | Rs.299/-<br>
+                Premium | Size: 2 * 6.5 (ft) | Rs.399/-
+            </div>
+        </div>
+    </section>
 
-        </section>
-      <section class="product-card">
+    <section class="product-card furniture-item">
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
             <span class="dot"></span>
-
         </div>
         <div class="image-gallery gallery-60">
             <img src="Crockery.png?w=800" loading="lazy" decoding="async">
             <img src="Crockery Drawer.png?w=800" loading="lazy" decoding="async">
             <img src="Crockery Drawer Open.png?w=800" loading="lazy" decoding="async">
-
         </div>
         <div class="info-panel">
             <h2 class="title">Crockery Cabinet or Multi Purpose Almirah</h2>
-             <div class="desc">Classic | Size: 2.5 * 6.15 (ft) | Rs.449/-
-             <br> Premium | Size: 2.5 * 6.15 (ft) | Rs.499/- </div>
+            <div class="desc">
+                Classic | Size: 2.5 * 6.15 (ft) | Rs.449/-<br>
+                Premium | Size: 2.5 * 6.15 (ft) | Rs.499/-
+            </div>
         </div>
+    </section>
 
-        </section>
-    <section class="product-card">
-            <div class="dots-container">
+    <section class="product-card furniture-item">
+        <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
-             <span class="dot"></span>
             <span class="dot"></span>
             <span class="dot"></span>
-              <span class="dot"></span>
-
+            <span class="dot"></span>
+            <span class="dot"></span>
         </div>
         <div class="image-gallery gallery-55">
-           <img src="Lined Mesh Chair.jpeg" loading="lazy" decoding="async">
-           <img src="Low Mesh Chair.jpeg" loading="lazy" decoding="async">
+            <img src="Lined Mesh Chair.jpeg" loading="lazy" decoding="async">
+            <img src="Low Mesh Chair.jpeg" loading="lazy" decoding="async">
             <img src="Medium Mesh Chair.jpeg" loading="lazy" decoding="async">
             <img src="Medium Mesh Chair Back.jpeg" loading="lazy" decoding="async">
             <img src="Headrest Chair.jpeg" loading="lazy" decoding="async">
             <img src="Headrest Chair Back.jpeg" loading="lazy" decoding="async">
-
         </div>
         <div class="info-panel">
-            <h2 class="title">Black Office Chair </h2>
-            <div class="desc">Lined Mesh | Rs.199/-
-            <br>Zig Zag Mesh  | Rs.249/-
-            <br>Lumbar Mesh   | Rs.299/-
-           <br>Headrest Mesh | Rs.349/-</div>
+            <h2 class="title">Black Office Chair</h2>
+            <div class="desc">
+                Lined Mesh | Rs.199/-<br>
+                Zig Zag Mesh | Rs.249/-<br>
+                Lumbar Mesh | Rs.299/-<br>
+                Headrest Mesh | Rs.349/-
+            </div>
         </div>
     </section>
-     <section class="product-card">
+
+    <section class="product-card furniture-item">
         <div class="image-gallery gallery-60">
-             <img src="Basic Table.png?w=800" loading="lazy" decoding="async">
+            <img src="Basic Table.png?w=800" loading="lazy" decoding="async">
         </div>
         <div class="info-panel">
             <h2 class="title">Table</h2>
-          <div class="desc">Size: 2 * 3 (ft) | Height : 2.5 ft | Rs.149/- <br>Size: 2.5 * 4 (ft) | Height : 2.5 ft | Rs.199/- </div>
+            <div class="desc">
+                Size: 2 * 3 (ft) | Height: 2.5 ft | Rs.149/-<br>
+                Size: 2.5 * 4 (ft) | Height: 2.5 ft | Rs.199/-
+            </div>
         </div>
-        </section>
-       <section class="product-card">
+    </section>
+
+    <section class="product-card furniture-item">
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
         </div>
         <div class="image-gallery gallery-60">
-             <img src="Computer One.png?w=800" loading="lazy" decoding="async">
+            <img src="Computer One.png?w=800" loading="lazy" decoding="async">
             <img src="ComputerTable2.png?w=800" loading="lazy" decoding="async">
-
         </div>
         <div class="info-panel">
             <h2 class="title">Computer Table</h2>
-        <div class="desc">One Side Storage <br>
-            Size: 2 * 3 (ft) | Height:2.5(ft) | Rs.249/-</div>
-        <div class="desc">Both Side Storage <br>
-            Size: 2 * 4 (ft) | Height:2.5(ft) | Rs.299/-</div>
+            <div class="desc">
+                One Side Storage<br>
+                Size: 2 * 3 (ft) | Height: 2.5 (ft) | Rs.249/-
+            </div>
+            <div class="desc">
+                Both Side Storage<br>
+                Size: 2 * 4 (ft) | Height: 2.5 (ft) | Rs.299/-
+            </div>
         </div>
-        </section>
-     <section class="product-card">
+    </section>
+
+    <section class="product-card furniture-item">
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
@@ -454,13 +518,18 @@ body, html {
         </div>
         <div class="info-panel">
             <h2 class="title">Coffee Table</h2>
-          <div class="desc">Essential<br>
-              Size: 1.5 * 2.5 (ft) | Height:2.5(ft) | Rs.149/-</div>
-           <div class="desc">Classic<br>
-            Size: 1.5 * 2.5 (ft) | Height:2.5(ft) | Rs.199/-</div>
+            <div class="desc">
+                Essential<br>
+                Size: 1.5 * 2.5 (ft) | Height: 2.5 (ft) | Rs.149/-
+            </div>
+            <div class="desc">
+                Classic<br>
+                Size: 1.5 * 2.5 (ft) | Height: 2.5 (ft) | Rs.199/-
+            </div>
         </div>
-        </section>
-    <section class="product-card">
+    </section>
+
+    <section class="product-card furniture-item">
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
@@ -471,132 +540,168 @@ body, html {
         </div>
         <div class="info-panel">
             <h2 class="title">Foldable Table</h2>
-         <div class="desc">Standard<br>
-            <div> Size: 1.5 * 2.5 (ft) | Rs.1600/-</div>
-              <div> Size: 2 * 3 (ft) | Rs.1800/-</div>
-            <div> Size: 2 * 4 (ft) | Rs.2200/-</div>
+            <div class="desc">
+                Standard<br>
+                Size: 1.5 * 2.5 (ft) | Rs.1600/-<br>
+                Size: 2 * 3 (ft) | Rs.1800/-<br>
+                Size: 2 * 4 (ft) | Rs.2200/-
+            </div>
+            <div class="desc">
+                Double Deck<br>
+                Size: 1.5 * 2.5 (ft) | Rs.2200/-<br>
+                Size: 2 * 3 (ft) | Rs.2400/-
+            </div>
         </div>
-           <div class="desc">Double Deck<br>
-            <div> Size: 1.5 * 2.5 (ft) | Rs.2200/-</div>
-              <div>  Size: 2 * 3 (ft) | Rs.2400/-</div>
-        </div>
-        </div>
-        </section>
-    <section class="product-card">
-        <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
-        <div class="image-gallery gallery-60">
-            <img src="Laptop Table.png?w=800" loading="lazy" decoding="async">
-            <img src="Laptop Table Adjustable.png?w=800" loading="lazy" decoding="async">
-            <img src="Laptop Table Adjustable Partial.png?w=800" loading="lazy" decoding="async">
+    </section>
 
-        </div>
-        <div class="info-panel">
-            <h2 class="title">Foldable Laptop Table</h2>
-         <div class="desc">Size: 16 * 24 (Inches)</div>
-             <div class="desc">Standard:Rs.499/-
-                 <br>Adjustable:Rs.999/-
-                 <br>Partial:Rs.999/-
-        </div>
-        </div>
-        </section>
-            <section class="product-card">
+    <section class="product-card furniture-item">
         <div class="image-gallery gallery-60">
             <img src="Queen Double Bed.png?w=800" loading="lazy" decoding="async">
         </div>
         <div class="info-panel">
             <table class="price-table">
-    <thead>
-        <tr>
-            <th>Variant</th>
-            <th>5 × 6 (ft)</th>
-            <th>6 × 6 (ft)</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <tr>
-            <td>Rent</td>
-            <td>Rs.799/-</td>
-            <td>Rs.899/-</td>
-        </tr>
-    </tbody>
-</table>
+                <thead>
+                    <tr>
+                        <th>Variant</th>
+                        <th>Rent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>5 × 6 (ft)</td><td>Rs.899/-</td></tr>
+                    <tr><td>6 × 6 (ft)</td><td>Rs.899/-</td></tr>
+                </tbody>
+            </table>
         </div>
     </section>
 
-    <section class="product-card">
+    <section class="product-card furniture-item">
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
         </div>
         <div class="image-gallery gallery-60">
             <img src="Sofa Set.png?w=800" loading="lazy" decoding="async">
-         <img src="Sofa Color.png?w=800" loading="lazy" decoding="async">
-
+            <img src="Sofa Color.png?w=800" loading="lazy" decoding="async">
         </div>
         <div class="info-panel">
-    <h2 class="title">Sofa Set and Table</h2>
-    <div class="desc">Choose a Sofa color (1–10) from next Image</div>
-<div class="desc">2 Seater Sofa | Rs.499/-
-<br>3 Seater Sofa | Rs.699/-
-<br>5 Seater Sofa | Rs.999/-
-<br>Center Table | Rs.149/- </div>
+            <h2 class="title">Sofa Set and Table</h2>
+            <div class="desc">Choose a Sofa color (1–10) from next Image</div>
+            <div class="desc">
+                2 Seater Sofa | Rs.499/-<br>
+                3 Seater Sofa | Rs.699/-<br>
+                5 Seater Sofa | Rs.999/-<br>
+                Center Table | Rs.149/-
+            </div>
         </div>
     </section>
-    <section class="product-card">
+
+    <section class="product-card furniture-item">
         <div class="image-gallery gallery-60">
-             <img src="TV Unit.png?w=800" loading="lazy" decoding="async">
+            <img src="TV Unit.png?w=800" loading="lazy" decoding="async">
         </div>
         <div class="info-panel">
             <h2 class="title">TV Unit</h2>
-        <div class="desc">Size: 5 ft  | Rs.399/-
-        <br>Size: 6 ft | Rs.499/- </div>
-
+            <div class="desc">
+                Size: 5 ft | Rs.399/-<br>
+                Size: 6 ft | Rs.499/-
+            </div>
         </div>
-        </section>
+    </section>
+
+    <!-- ==================== ELECTRONICS ITEMS ==================== -->
+    <!-- Add your electronics product cards here.
+         IMPORTANT: use class="product-card electronics-item" -->
+
+    <section class="product-card electronics-item hidden">
+        <div class="image-gallery gallery-60">
+            <img src="Electronics Item.png?w=800" loading="lazy" decoding="async">
+        </div>
+        <div class="info-panel">
+            <h2 class="title">Electronics Item</h2>
+            <div class="desc">Add your electronics product details here.</div>
+        </div>
+    </section>
 
 </div>
 
 <script>
-// Function to update dots on scroll
+/* CATEGORY SWITCHING */
+const categoryTabs = document.querySelectorAll('.category-tab');
+const furnitureItems = document.querySelectorAll('.furniture-item');
+const electronicsItems = document.querySelectorAll('.electronics-item');
+
+categoryTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const category = tab.dataset.category;
+
+        categoryTabs.forEach(item => item.classList.remove('active'));
+        tab.classList.add('active');
+
+        furnitureItems.forEach(item => {
+            item.classList.toggle('hidden', category !== 'furniture');
+        });
+
+        electronicsItems.forEach(item => {
+            item.classList.toggle('hidden', category !== 'electronics');
+        });
+
+        window.scrollTo({
+            top: document.querySelector('.category-tabs').offsetTop - 125,
+            behavior: 'smooth'
+        });
+    });
+});
+
+/* GALLERY DOTS + DESKTOP DRAG */
 function updateDots(gallery, dots) {
     const index = Math.round(gallery.scrollLeft / gallery.clientWidth);
-    dots.forEach((dot,i)=>dot.classList.toggle('active', i === index));
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
 }
 
-// Add scroll + drag + clickable dots
 document.querySelectorAll('.product-card').forEach(card => {
     const gallery = card.querySelector('.image-gallery');
     const dots = card.querySelectorAll('.dot');
-    if(!gallery) return;
 
-    // On scroll update dots
-    gallery.addEventListener('scroll', ()=> updateDots(gallery,dots));
+    if (!gallery) return;
 
-    // Mouse drag for desktop
-    let isDown=false, startX, scrollLeft;
+    gallery.addEventListener('scroll', () => updateDots(gallery, dots), { passive: true });
+
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
     gallery.addEventListener('mousedown', e => {
-        isDown = true; gallery.classList.add('active');
+        isDown = true;
+        gallery.classList.add('active');
         startX = e.pageX - gallery.offsetLeft;
         scrollLeft = gallery.scrollLeft;
     });
-    gallery.addEventListener('mouseleave', ()=>{ isDown=false; gallery.classList.remove('active'); });
-    gallery.addEventListener('mouseup', ()=>{ isDown=false; gallery.classList.remove('active'); });
-    gallery.addEventListener('mousemove', e=>{
-        if(!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - gallery.offsetLeft;
-        gallery.scrollLeft = scrollLeft - (x - startX)*2;
+
+    gallery.addEventListener('mouseleave', () => {
+        isDown = false;
+        gallery.classList.remove('active');
     });
 
-    // Click on dots
-    dots.forEach((dot,i)=>{
-        dot.addEventListener('click', ()=>{
-            gallery.scrollTo({left: i*gallery.clientWidth, behavior: 'smooth'});
+    gallery.addEventListener('mouseup', () => {
+        isDown = false;
+        gallery.classList.remove('active');
+    });
+
+    gallery.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - gallery.offsetLeft;
+        gallery.scrollLeft = scrollLeft - (x - startX) * 2;
+    });
+
+    dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+            gallery.scrollTo({
+                left: i * gallery.clientWidth,
+                behavior: 'smooth'
+            });
         });
     });
 });
