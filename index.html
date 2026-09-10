@@ -61,6 +61,10 @@ html, body {
     border-radius: 14px;
     margin: 0;
 }
+    .office-chair-gallery {
+    height: 300px;
+}
+    
 
 .category-tab {
     flex: 1;
@@ -122,7 +126,7 @@ html, body {
 
 /* INFO PANEL */
 .info-panel {
-    padding: 18px 24px 24px;
+    padding: 14px 24px 24px;
 }
 .price {
     font-size: 0.9rem;
@@ -189,6 +193,9 @@ html, body {
 .mattress-title + .price-table {
     margin-top: 0;
 }
+    .dressing-gallery {
+    height: 300px;
+}
 
 /* DOTS */
 .dots-container {
@@ -213,11 +220,9 @@ html, body {
 .dot.active { background: var(--accent); }
 
 /* GALLERY HEIGHTS */
-.gallery-65,
-.gallery-60,
-.gallery-55 {
-    height: 250px;
-}
+.gallery-65 { height: 65%; }
+.gallery-60 { height: 60%; }
+.gallery-55 { height: 55%; }
 
 /* DESKTOP */
 @media (min-width: 768px) {
@@ -255,6 +260,12 @@ html, body {
 
 /* MOBILE */
 @media (max-width: 600px) {
+      .office-chair-gallery {
+        height: 250px;
+    }
+     .dressing-gallery {
+        height: 250px;
+    }
     .price-table {
         background: #fff;
         margin: 0 0 15px;
@@ -410,7 +421,7 @@ html, body {
             <span class="dot"></span>
             <span class="dot"></span>
         </div>
-        <div class="image-gallery gallery-60">
+        <div class="image-gallery dressing-gallery gallery-60">
             <img src="Dressing1.png?w=800" loading="lazy" decoding="async">
             <img src="Dressing2.png?w=800" loading="lazy" decoding="async">
             <img src="Dressing Table with Slab.png?w=800" loading="lazy" decoding="async">
@@ -453,7 +464,7 @@ html, body {
             <span class="dot"></span>
             <span class="dot"></span>
         </div>
-        <div class="image-gallery gallery-55">
+        <div class="image-gallery office-chair-gallery gallery-55">
             <img src="Lined Mesh Chair.jpeg" loading="lazy" decoding="async">
             <img src="Low Mesh Chair.jpeg" loading="lazy" decoding="async">
             <img src="Medium Mesh Chair.jpeg" loading="lazy" decoding="async">
