@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+
 <style>
 :root {
     --app-padding: 20px;
@@ -13,7 +14,8 @@
 }
 
 /* GLOBAL */
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     background-color: var(--bg-color);
@@ -31,8 +33,9 @@ html, body {
     -webkit-backdrop-filter: blur(15px);
     text-align: center;
     z-index: 100;
-    border-bottom: 0.5px solid rgba(0,0,0,0.1);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
 }
+
 .header h1 {
     margin: 0;
     font-size: 1.1rem;
@@ -61,10 +64,6 @@ html, body {
     border-radius: 14px;
     margin: 0;
 }
-    .office-chair-gallery {
-    height: 300px;
-}
-    
 
 .category-tab {
     flex: 1;
@@ -83,7 +82,7 @@ html, body {
 .category-tab.active {
     background: #fff;
     color: #1c1c1e;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* PRODUCT CARD */
@@ -94,7 +93,7 @@ html, body {
     background: #fff;
     border-radius: var(--card-radius);
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
@@ -104,6 +103,7 @@ html, body {
 
 /* IMAGE GALLERY */
 .image-gallery {
+    position: relative;
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -111,9 +111,17 @@ html, body {
     width: 100%;
     height: 300px;
     cursor: grab;
+    background: #f2f2f7;
 }
-.image-gallery.active { cursor: grabbing; }
-.image-gallery::-webkit-scrollbar { display: none; }
+
+.image-gallery.active {
+    cursor: grabbing;
+}
+
+.image-gallery::-webkit-scrollbar {
+    display: none;
+}
+
 .image-gallery img {
     flex: 0 0 100%;
     width: 100%;
@@ -122,23 +130,63 @@ html, body {
     scroll-snap-align: start;
     user-select: none;
     pointer-events: none;
+
+    /* Image loader transition */
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.image-gallery img.loaded {
+    opacity: 1;
+}
+
+/* IMAGE LOADER */
+.image-gallery::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    margin: -14px 0 0 -14px;
+
+    border: 3px solid rgba(0, 0, 0, 0.12);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+
+    animation: imageLoader 0.8s linear infinite;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.image-gallery.image-loaded::after {
+    display: none;
+}
+
+@keyframes imageLoader {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* INFO PANEL */
 .info-panel {
     padding: 14px 24px 24px;
 }
+
 .price {
     font-size: 0.9rem;
     font-weight: 400;
     margin-bottom: 4px;
 }
+
 .title {
     font-size: 1.2rem;
     font-weight: 400;
     margin: 0;
     color: #1c1c1e;
 }
+
 .desc {
     font-size: 0.9rem;
     color: #636366;
@@ -152,18 +200,21 @@ html, body {
     border-radius: 24px;
     padding: 20px;
     margin-bottom: 0;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
 }
+
 .info-section ul {
     margin: 0;
     padding-left: 18px;
 }
+
 .info-section li {
     font-size: 0.9rem;
     color: #1c1c1e;
     margin-bottom: 8px;
     line-height: 1.4;
 }
+
 .info-section li:last-child {
     margin-bottom: 0;
 }
@@ -175,12 +226,14 @@ html, body {
     border: 1px solid #ccc;
     margin-bottom: 15px;
 }
+
 .price-table th,
 .price-table td {
     text-align: left;
     border: 1px solid #ccc;
     padding: 8px;
 }
+
 .price-table th {
     background: #f5f5f5;
     font-weight: 600;
@@ -190,10 +243,17 @@ html, body {
 .mattress-title {
     margin: 0 0 10px;
 }
+
 .mattress-title + .price-table {
     margin-top: 0;
 }
-    .dressing-gallery {
+
+/* SPECIAL GALLERY */
+.office-chair-gallery {
+    height: 300px;
+}
+
+.dressing-gallery {
     height: 300px;
 }
 
@@ -204,12 +264,13 @@ html, body {
     right: 15px;
     display: flex;
     gap: 4px;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
     padding: 5px 10px;
     border-radius: 20px;
     backdrop-filter: blur(8px);
-    z-index: 10;
+    z-index: 30;
 }
+
 .dot {
     width: 6px;
     height: 6px;
@@ -217,15 +278,27 @@ html, body {
     border-radius: 50%;
     cursor: pointer;
 }
-.dot.active { background: var(--accent); }
+
+.dot.active {
+    background: var(--accent);
+}
 
 /* GALLERY HEIGHTS */
-.gallery-65 { height: 65%; }
-.gallery-60 { height: 60%; }
-.gallery-55 { height: 55%; }
+.gallery-65 {
+    height: 65%;
+}
+
+.gallery-60 {
+    height: 60%;
+}
+
+.gallery-55 {
+    height: 55%;
+}
 
 /* DESKTOP */
 @media (min-width: 768px) {
+
     .feed {
         flex-direction: row;
         flex-wrap: wrap;
@@ -248,27 +321,33 @@ html, body {
 }
 
 @media (min-width: 1200px) {
-    .product-card { width: 30%; }
-    .image-gallery { height: 400px; }
+
+    .product-card {
+        width: 30%;
+    }
+
+    .image-gallery {
+        height: 400px;
+    }
 }
 
 /* HOVER */
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 }
 
 /* MOBILE */
 @media (max-width: 600px) {
-      .office-chair-gallery {
+
+    .office-chair-gallery {
         height: 454px;
     }
-      .washing-machine-gallery {
-        height: 500px;
-    }
-     .dressing-gallery {
+
+    .dressing-gallery {
         height: 250px;
     }
+
     .price-table {
         background: #fff;
         margin: 0 0 15px;
@@ -299,6 +378,8 @@ html, body {
 
 <div class="feed">
 
+    <!-- ==================== INFO ==================== -->
+
     <section class="info-section">
         <ul>
             <li><strong>Guaranteed lowest rates</strong> in the market and No hidden charges</li>
@@ -309,41 +390,51 @@ html, body {
         </ul>
     </section>
 
-    <!-- CATEGORY TABS -->
+    <!-- ==================== CATEGORY TABS ==================== -->
+
     <div class="category-tabs">
         <button class="category-tab active" data-category="furniture">
             Furniture
         </button>
+
         <button class="category-tab" data-category="electronics">
             Electronics
         </button>
     </div>
 
+
     <!-- ==================== FURNITURE ITEMS ==================== -->
 
     <section class="product-card furniture-item">
         <div class="image-gallery">
-            <img src="Color Options.jpeg" decoding="async">
+            <img src="Color Options.jpeg" loading="eager" decoding="async">
         </div>
+
         <div class="info-panel">
             <h2 class="title">Choose Your Color</h2>
             <p class="desc">Off White | Wenge | Walnut | Wooden</p>
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
             <span class="dot"></span>
         </div>
+
         <div class="image-gallery gallery-65">
             <img src="Essential Mattress.png?w=800" loading="lazy" decoding="async">
             <img src="Single Mattress.png?w=800" loading="lazy" decoding="async">
             <img src="Elite Mattress.png?w=800" loading="lazy" decoding="async">
         </div>
+
         <div class="info-panel">
+
             <h2 class="title mattress-title">Mattress</h2>
+
             <table class="price-table">
                 <thead>
                     <tr>
@@ -353,454 +444,800 @@ html, body {
                         <th>6 × 6 (ft)</th>
                     </tr>
                 </thead>
+
                 <tbody>
-                    <tr><td>Standard</td><td>Rs.199/-</td><td>Rs.299/-</td><td>Rs.349/-</td></tr>
-                    <tr><td>Premium</td><td>Rs.249/-</td><td>Rs.349/-</td><td>Rs.449/-</td></tr>
-                    <tr><td>Elite</td><td>Rs.299/-</td><td>Rs.449/-</td><td>Rs.499/-</td></tr>
+                    <tr>
+                        <td>Standard</td>
+                        <td>Rs.199/-</td>
+                        <td>Rs.299/-</td>
+                        <td>Rs.349/-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Premium</td>
+                        <td>Rs.249/-</td>
+                        <td>Rs.349/-</td>
+                        <td>Rs.449/-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Elite</td>
+                        <td>Rs.299/-</td>
+                        <td>Rs.449/-</td>
+                        <td>Rs.499/-</td>
+                    </tr>
                 </tbody>
             </table>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="image-gallery">
             <img src="Bedside Table.png" loading="lazy" decoding="async">
         </div>
+
         <div class="info-panel">
             <h2 class="title">Bedside Table</h2>
             <p class="desc">Size: 1.25 * 1.25 (ft) | Rs.149/-</p>
         </div>
+
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
         </div>
+
         <div class="image-gallery">
+
             <img src="2 Door Shoe.png" loading="lazy" decoding="async">
             <img src="3 Door Shoe.png" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">Small Almirah or Shoe Rack</h2>
+
             <div class="desc">
                 2 Door | Size: 2 * 3 (ft) | Rs.249/-<br>
                 3 Door | Size: 3 * 3 (ft) | Rs.349/-
             </div>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="image-gallery gallery-60">
             <img src="Single Wooden Bed.png?w=800" loading="lazy" decoding="async">
         </div>
+
         <div class="info-panel">
             <h2 class="title">Wooden Single Bed With Storage</h2>
             <div class="desc">Size: 3 * 6 (ft) | Rs.399/-</div>
         </div>
+
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
         </div>
+
         <div class="image-gallery gallery-60">
+
             <img src="Almirah 1.png?w=800" loading="lazy" decoding="async">
             <img src="Almirah 2.png?w=800" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">2 Door Almirah with Mirror</h2>
+
             <div class="desc">
                 Size: 2 × 6.15 (ft) | Rs.349/-<br>
                 Size: 2.5 × 6.15 (ft) | Rs.399/-
             </div>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
             <span class="dot"></span>
         </div>
+
         <div class="image-gallery gallery-60">
+
             <img src="Dressing1.png?w=800" loading="lazy" decoding="async">
             <img src="Dressing2.png?w=800" loading="lazy" decoding="async">
             <img src="Dressing Table with Slab.png?w=800" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">Dressing Table</h2>
+
             <div class="desc">
                 Classic | Size: 1.5 * 6.5 (ft) | Rs.299/-<br>
                 Premium | Size: 2 * 6.5 (ft) | Rs.399/-
             </div>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
             <span class="dot"></span>
         </div>
+
         <div class="image-gallery gallery-60">
+
             <img src="Crockery.png?w=800" loading="lazy" decoding="async">
             <img src="Crockery Drawer.png?w=800" loading="lazy" decoding="async">
             <img src="Crockery Drawer Open.png?w=800" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">Crockery Cabinet or Multi Purpose Almirah</h2>
+
             <div class="desc">
                 Classic | Size: 2.5 * 6.15 (ft) | Rs.449/-<br>
                 Premium | Size: 2.5 * 6.15 (ft) | Rs.499/-
             </div>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
+
             <span class="dot active"></span>
             <span class="dot"></span>
             <span class="dot"></span>
             <span class="dot"></span>
             <span class="dot"></span>
+
         </div>
+
         <div class="image-gallery office-chair-gallery gallery-55">
+
             <img src="Low Mesh Chair.jpeg" loading="lazy" decoding="async">
             <img src="Medium Mesh Chair.jpeg" loading="lazy" decoding="async">
             <img src="Medium Mesh Chair Back.jpeg" loading="lazy" decoding="async">
             <img src="Headrest Chair.jpeg" loading="lazy" decoding="async">
             <img src="Headrest Chair Back.jpeg" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">Black Office Chair</h2>
+
             <div class="desc">
                 Zig Zag Mesh | Rs.199/-<br>
                 Lumbar Mesh | Rs.299/-<br>
                 Headrest Mesh | Rs.349/-
             </div>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="image-gallery gallery-60">
-            <img src="Basic Table.png?w=800">
+
+            <img src="Basic Table.png?w=800" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">Table</h2>
+
             <div class="desc">
                 Size: 2 * 3 (ft) | Height: 2.5 ft | Rs.149/-<br>
                 Size: 2.5 * 4 (ft) | Height: 2.5 ft | Rs.199/-
             </div>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
         </div>
+
         <div class="image-gallery gallery-60">
+
             <img src="Computer One.png?w=800" loading="lazy" decoding="async">
             <img src="ComputerTable2.png?w=800" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">Computer Table</h2>
+
             <div class="desc">
                 One Side Storage<br>
                 Size: 2 * 3 (ft) | Height: 2.5 (ft) | Rs.249/-
             </div>
+
             <div class="desc">
                 Both Side Storage<br>
                 Size: 2 * 4 (ft) | Height: 2.5 (ft) | Rs.299/-
             </div>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
         </div>
+
         <div class="image-gallery gallery-60">
-            <img src="Coffee Table 1.png?w=800">
+
+            <img src="Coffee Table 1.png?w=800" loading="lazy" decoding="async">
             <img src="Coffee Table2.png?w=800" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">Coffee Table</h2>
+
             <div class="desc">
                 Essential<br>
                 Size: 1.5 * 2.5 (ft) | Height: 2.5 (ft) | Rs.149/-
             </div>
+
             <div class="desc">
                 Classic<br>
                 Size: 1.5 * 2.5 (ft) | Height: 2.5 (ft) | Rs.199/-
             </div>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
             <span class="dot active"></span>
             <span class="dot"></span>
         </div>
+
         <div class="image-gallery gallery-60">
+
             <img src="Foldable Table.png?w=800" loading="lazy" decoding="async">
             <img src="Foldable Table DD.png?w=800" loading="lazy" decoding="async">
-        </div>
-        <div class="info-panel">
-            <h2 class="title">Foldable Table</h2>
-            <table class="price-table">
-    <thead>
-        <tr>
-            <th>Variant</th>
-            <th>1.5 × 2.5 (ft)</th>
-            <th>2 × 3 (ft)</th>
-        </tr>
-    </thead>
 
-    <tbody>
-        <tr>
-            <td>Standard</td>
-            <td>Rs.199/-</td>
-            <td>Rs.249/-</td>
-        </tr>
-        <tr>
-            <td>Double Decker</td>
-            <td>Rs.249/-</td>
-            <td>Rs.299/-</td>
-        </tr>
-    </tbody>
-</table>
+        </div>
+
+        <div class="info-panel">
+
+            <h2 class="title">Foldable Table</h2>
+
+            <table class="price-table">
+
+                <thead>
+                    <tr>
+                        <th>Variant</th>
+                        <th>1.5 × 2.5 (ft)</th>
+                        <th>2 × 3 (ft)</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Standard</td>
+                        <td>Rs.199/-</td>
+                        <td>Rs.249/-</td>
+                    </tr>
+
+                    <tr>
+                        <td>Double Decker</td>
+                        <td>Rs.249/-</td>
+                        <td>Rs.299/-</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="image-gallery gallery-60">
+
             <img src="Queen Double Bed.png?w=800" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
-<h2 class="title">Wooden Double Bed With Storage</h2>
+
+            <h2 class="title">Wooden Double Bed With Storage</h2>
 
             <table class="price-table">
+
                 <thead>
                     <tr>
                         <th>Size</th>
                         <th>Rent</th>
                     </tr>
                 </thead>
+
                 <tbody>
-                    <tr><td>5 × 6 (ft)</td><td>Rs.799/-</td></tr>
-                    <tr><td>6 × 6 (ft)</td><td>Rs.899/-</td></tr>
+                    <tr>
+                        <td>5 × 6 (ft)</td>
+                        <td>Rs.799/-</td>
+                    </tr>
+
+                    <tr>
+                        <td>6 × 6 (ft)</td>
+                        <td>Rs.899/-</td>
+                    </tr>
                 </tbody>
+
             </table>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="dots-container">
+
             <span class="dot active"></span>
             <span class="dot"></span>
+
         </div>
+
         <div class="image-gallery gallery-60">
+
             <img src="Sofa Set.png?w=800" loading="lazy" decoding="async">
             <img src="Sofa Color.png?w=800" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">Sofa Set and Table</h2>
-            <div class="desc">Choose a Sofa color (1–10) from next Image</div>
+
+            <div class="desc">
+                Choose a Sofa color (1–10) from next Image
+            </div>
+
             <div class="desc">
                 2 Seater Sofa | Rs.499/-<br>
                 3 Seater Sofa | Rs.699/-<br>
                 5 Seater Sofa | Rs.999/-<br>
                 Center Table | Rs.149/-
             </div>
+
         </div>
     </section>
 
+
     <section class="product-card furniture-item">
+
         <div class="image-gallery gallery-60">
+
             <img src="TV Unit.png?w=800" loading="lazy" decoding="async">
+
         </div>
+
         <div class="info-panel">
+
             <h2 class="title">TV Unit</h2>
+
             <div class="desc">
                 Size: 5 ft | Rs.399/-<br>
                 Size: 6 ft | Rs.499/-
             </div>
+
         </div>
     </section>
 
+
     <!-- ==================== ELECTRONICS ITEMS ==================== -->
-    <!-- Add your electronics product cards here.
-         IMPORTANT: use class="product-card electronics-item" -->
 
-<section class="product-card electronics-item hidden">
-    <div class="dots-container">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-    </div>
+    <section class="product-card electronics-item hidden">
 
-    <div class="image-gallery gallery-60">
-        <img src="Fridge 1.png?w=800" >
-        <img src="Fridge 2.png?w=800">
-    </div>
+        <div class="dots-container">
 
-    <div class="info-panel">
-        <h2 class="title">Refrigerator or Fridge</h2>
+            <span class="dot active"></span>
+            <span class="dot"></span>
 
-        <p class="desc">
-            CAPACITY: 184 Litre | Rent: Rs.699/-
-        </p>
+        </div>
 
-        <p class="desc">
-            Installation | Repair | Maintenance — Absolutely Free From Our Side
-        </p>
-    </div>
-</section>
+        <div class="image-gallery gallery-60">
 
+            <img src="Fridge 1.png?w=800" loading="lazy" decoding="async">
+            <img src="Fridge 2.png?w=800" loading="lazy" decoding="async">
 
-<section class="product-card electronics-item hidden">
-    <div class="image-gallery gallery-60">
-        <img src="Washing Machine.png?w=800" loading="lazy" decoding="async">
-    </div>
+        </div>
 
-    <div class="info-panel">
-        <h2 class="title">Fully Automatic Washing Machine Top Loaded</h2>
+        <div class="info-panel">
 
-        <p class="desc">
-            Capacity: 6 - 7KG | Rent: Rs.799/-
-        </p>
+            <h2 class="title">Refrigerator or Fridge</h2>
 
-        <p class="desc">
-            Installation | Repair | Maintenance — Absolutely Free From Our Side
-        </p>
-    </div>
-</section>
+            <p class="desc">
+                CAPACITY: 184 Litre | Rent: Rs.699/-
+            </p>
+
+            <p class="desc">
+                Installation | Repair | Maintenance — Absolutely Free From Our Side
+            </p>
+
+        </div>
+    </section>
 
 
-<section class="product-card electronics-item hidden">
-    <div class="image-gallery gallery-60">
-        <img src="Television.jpg" loading="lazy" decoding="async">
-    </div>
+    <section class="product-card electronics-item hidden">
 
-    <div class="info-panel">
-        <h2 class="title">Television</h2><br/><br/>
+        <div class="image-gallery gallery-60">
 
-        <table class="price-table">
-            <thead>
-                <tr>
-                    <th>Size</th>
-                    <th>Ultra HD</th>
-                    <th>LED</th>
-                </tr>
-            </thead>
+            <img src="Washing Machine.png?w=800" loading="lazy" decoding="async">
 
-            <tbody>
-                <tr>
-                    <td>43 Inch</td>
-                    <td>Rs.1299/-</td>
-                    <td>Rs.1499/-</td>
-                </tr>
+        </div>
 
-                <tr>
-                    <td>55 Inch</td>
-                    <td>Rs.1799/-</td>
-                    <td>Rs.1999/-</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="info-panel">
 
-        <p class="desc">
-            Installation | Repair | Maintenance — Absolutely Free From Our Side
-        </p>
-    </div>
-</section>
+            <h2 class="title">Fully Automatic Washing Machine Top Loaded</h2>
+
+            <p class="desc">
+                Capacity: 6 - 7KG | Rent: Rs.799/-
+            </p>
+
+            <p class="desc">
+                Installation | Repair | Maintenance — Absolutely Free From Our Side
+            </p>
+
+        </div>
+    </section>
+
+
+    <section class="product-card electronics-item hidden">
+
+        <div class="image-gallery gallery-60">
+
+            <img src="Television.jpg" loading="lazy" decoding="async">
+
+        </div>
+
+        <div class="info-panel">
+
+            <h2 class="title">Television</h2>
+
+            <table class="price-table">
+
+                <thead>
+                    <tr>
+                        <th>Size</th>
+                        <th>Ultra HD</th>
+                        <th>LED</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>43 Inch</td>
+                        <td>Rs.1299/-</td>
+                        <td>Rs.1499/-</td>
+                    </tr>
+
+                    <tr>
+                        <td>55 Inch</td>
+                        <td>Rs.1799/-</td>
+                        <td>Rs.1999/-</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <p class="desc">
+                Installation | Repair | Maintenance — Absolutely Free From Our Side
+            </p>
+
+        </div>
+    </section>
 
 </div>
 
+
 <script>
-/* CATEGORY SWITCHING */
-const categoryTabs = document.querySelectorAll('.category-tab');
-const furnitureItems = document.querySelectorAll('.furniture-item');
-const electronicsItems = document.querySelectorAll('.electronics-item');
 
-categoryTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        const category = tab.dataset.category;
+/* ==================== IMAGE LOADING ==================== */
 
-        categoryTabs.forEach(item => item.classList.remove('active'));
-        tab.classList.add('active');
+document.querySelectorAll('.image-gallery').forEach(gallery => {
 
-        furnitureItems.forEach(item => {
-            item.classList.toggle('hidden', category !== 'furniture');
-        });
+    const images = gallery.querySelectorAll('img');
 
-        electronicsItems.forEach(item => {
-            item.classList.toggle('hidden', category !== 'electronics');
-        });
+    if (!images.length) return;
 
-        window.scrollTo({
-            top: document.querySelector('.category-tabs').offsetTop - 125,
-            behavior: 'smooth'
-        });
+    let firstImageLoaded = false;
+
+    images.forEach(img => {
+
+        function imageLoaded() {
+
+            img.classList.add('loaded');
+
+            /*
+             * Hide loader as soon as the first image
+             * in the gallery becomes available.
+             */
+            if (!firstImageLoaded) {
+                firstImageLoaded = true;
+                gallery.classList.add('image-loaded');
+            }
+        }
+
+        if (img.complete && img.naturalWidth > 0) {
+
+            imageLoaded();
+
+        } else {
+
+            img.addEventListener('load', imageLoaded, {
+                once: true
+            });
+
+            img.addEventListener('error', () => {
+
+                img.classList.add('loaded');
+
+                if (!firstImageLoaded) {
+                    firstImageLoaded = true;
+                    gallery.classList.add('image-loaded');
+                }
+
+            }, {
+                once: true
+            });
+        }
     });
 });
 
-/* GALLERY DOTS + DESKTOP DRAG */
-function updateDots(gallery, dots) {
-    const index = Math.round(gallery.scrollLeft / gallery.clientWidth);
-    dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
+
+/* ==================== CATEGORY SWITCHING ==================== */
+
+const categoryTabs = document.querySelectorAll('.category-tab');
+
+const furnitureItems =
+    document.querySelectorAll('.furniture-item');
+
+const electronicsItems =
+    document.querySelectorAll('.electronics-item');
+
+
+categoryTabs.forEach(tab => {
+
+    tab.addEventListener('click', () => {
+
+        const category = tab.dataset.category;
+
+
+        categoryTabs.forEach(item => {
+            item.classList.remove('active');
+        });
+
+        tab.classList.add('active');
+
+
+        furnitureItems.forEach(item => {
+
+            item.classList.toggle(
+                'hidden',
+                category !== 'furniture'
+            );
+
+        });
+
+
+        electronicsItems.forEach(item => {
+
+            item.classList.toggle(
+                'hidden',
+                category !== 'electronics'
+            );
+
+        });
+
+
+        window.scrollTo({
+
+            top:
+                document.querySelector('.category-tabs').offsetTop
+                - 125,
+
+            behavior: 'smooth'
+
+        });
+
     });
+
+});
+
+
+/* ==================== GALLERY DOTS + DESKTOP DRAG ==================== */
+
+function updateDots(gallery, dots) {
+
+    const index =
+        Math.round(
+            gallery.scrollLeft /
+            gallery.clientWidth
+        );
+
+    dots.forEach((dot, i) => {
+
+        dot.classList.toggle(
+            'active',
+            i === index
+        );
+
+    });
+
 }
 
+
 document.querySelectorAll('.product-card').forEach(card => {
-    const gallery = card.querySelector('.image-gallery');
-    const dots = card.querySelectorAll('.dot');
+
+    const gallery =
+        card.querySelector('.image-gallery');
+
+    const dots =
+        card.querySelectorAll('.dot');
+
 
     if (!gallery) return;
 
-    gallery.addEventListener('scroll', () => updateDots(gallery, dots), { passive: true });
+
+    gallery.addEventListener(
+        'scroll',
+        () => updateDots(gallery, dots),
+        {
+            passive: true
+        }
+    );
+
 
     let isDown = false;
+
     let startX = 0;
+
     let scrollLeft = 0;
 
-    gallery.addEventListener('mousedown', e => {
-        isDown = true;
-        gallery.classList.add('active');
-        startX = e.pageX - gallery.offsetLeft;
-        scrollLeft = gallery.scrollLeft;
-    });
 
-    gallery.addEventListener('mouseleave', () => {
-        isDown = false;
-        gallery.classList.remove('active');
-    });
+    gallery.addEventListener(
+        'mousedown',
+        e => {
 
-    gallery.addEventListener('mouseup', () => {
-        isDown = false;
-        gallery.classList.remove('active');
-    });
+            isDown = true;
 
-    gallery.addEventListener('mousemove', e => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - gallery.offsetLeft;
-        gallery.scrollLeft = scrollLeft - (x - startX) * 2;
-    });
+            gallery.classList.add('active');
+
+            startX =
+                e.pageX -
+                gallery.offsetLeft;
+
+            scrollLeft =
+                gallery.scrollLeft;
+
+        }
+    );
+
+
+    gallery.addEventListener(
+        'mouseleave',
+        () => {
+
+            isDown = false;
+
+            gallery.classList.remove('active');
+
+        }
+    );
+
+
+    gallery.addEventListener(
+        'mouseup',
+        () => {
+
+            isDown = false;
+
+            gallery.classList.remove('active');
+
+        }
+    );
+
+
+    gallery.addEventListener(
+        'mousemove',
+        e => {
+
+            if (!isDown) return;
+
+            e.preventDefault();
+
+            const x =
+                e.pageX -
+                gallery.offsetLeft;
+
+            gallery.scrollLeft =
+                scrollLeft -
+                (x - startX) * 2;
+
+        }
+    );
+
 
     dots.forEach((dot, i) => {
-        dot.addEventListener('click', () => {
-            gallery.scrollTo({
-                left: i * gallery.clientWidth,
-                behavior: 'smooth'
-            });
-        });
+
+        dot.addEventListener(
+            'click',
+            () => {
+
+                gallery.scrollTo({
+
+                    left:
+                        i *
+                        gallery.clientWidth,
+
+                    behavior: 'smooth'
+
+                });
+
+            }
+        );
+
     });
+
 });
+
 </script>
 
 </body>
