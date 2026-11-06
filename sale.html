@@ -387,6 +387,31 @@ body {
 .cart-total{display:flex;justify-content:space-between;gap:12px;padding:17px 0;font-size:17px;border-top:2px solid #ddd}.cart-actions{display:flex;flex-wrap:wrap;gap:9px}.cart-actions button{flex:1;min-width:120px}.cart-actions #clear-cart{background:#e5e5ea;color:#333}
 @media(max-width:550px){.cart-dialog{padding:16px}.customer-fields{grid-template-columns:1fr}.cart-row{grid-template-columns:minmax(0,1fr) 57px 67px 20px;gap:5px}.cart-row input{width:55px}.cart-row small{font-size:11px}.cart-line-total{font-size:12px}}
 @media print{.header,.feed,#cart-floating,.cart-actions,.cart-heading-row button{display:none!important}.cart-modal{position:static;background:white;padding:0}.cart-dialog{max-height:none;overflow:visible;width:100%;padding:0}.cart-row .remove-item,.cart-row input{display:none}}
+
+/* Browser-native, server-free PDF through Print > Save as PDF. */
+#print-summary{display:none}
+@page{size:A4;margin:15mm}
+@media print{
+ html,body{margin:0!important;padding:0!important;background:#fff!important;color:#1c1c1e!important;font-family:Arial,sans-serif!important}
+ body > *:not(#print-summary){display:none!important}
+ #print-summary[hidden]{display:none!important}
+ #print-summary{display:block!important;position:static!important;padding:0!important;width:100%!important;font-size:11pt!important}
+ #print-summary h1{font-size:23pt;margin:0 0 3mm;color:#4b260f}
+ #print-summary h2{font-size:14pt;margin:0 0 6mm}
+ #print-summary .print-meta{margin:1mm 0;font-size:10pt}
+ .print-order-table{width:100%;border-collapse:collapse;margin-top:8mm;font-size:9pt;table-layout:fixed}
+ .print-order-table th,.print-order-table td{border:1px solid #ccc;padding:3mm 2mm;text-align:left;vertical-align:top;overflow-wrap:anywhere;white-space:pre-line}
+ .print-order-table th{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .print-order-table th:nth-child(1){width:6%}
+ .print-order-table th:nth-child(2){width:44%}
+ .print-order-table th:nth-child(3){width:8%}
+ .print-order-table th:nth-child(4){width:19%}
+ .print-order-table th:nth-child(5){width:23%}
+ .print-order-table tr{break-inside:avoid;page-break-inside:avoid}
+ .print-order-table thead{display:table-header-group}
+ .print-grand-total{font-size:13pt;font-weight:700;margin-top:8mm}
+ .print-terms{font-size:9pt;color:#555;line-height:1.5}
+}
 </style>
 <style>
 /* Consistent separation between product headings and pricing tables */
@@ -1153,9 +1178,9 @@ document.querySelectorAll('.product-card').forEach(card => {
 <div id="cart-items"></div>
 <div class="cart-total"><span>Estimated monthly rent</span><strong id="cart-total">₹0</strong></div>
 <p class="cart-note">Prices are monthly rental estimates. Delivery charges depend on location. No deposit for working professionals; minimum lock-in 3 months.</p>
-<div class="cart-actions"><button id="pdf-download" type="button">Download PDF</button><button id="share-cart" type="button">Share list</button><button id="clear-cart" type="button">Clear cart</button></div>
+<div class="cart-actions"><button id="pdf-download" type="button">Save as PDF</button><button id="share-cart" type="button">Share list</button><button id="clear-cart" type="button">Clear cart</button></div>
 </div>
-</div><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script><script>
+</div><section id="print-summary" aria-label="Printable rental enquiry" hidden></section><script>
 /* CART: locally stored in the visitor's browser; no checkout/payment. */
 const CART_KEY='mosu-rental-cart-v1';
 let cart=[];
@@ -1218,26 +1243,45 @@ document.getElementById('share-cart').onclick=async()=>{
  if(navigator.share){try{await navigator.share({title:'MoSu Furniture Rental Enquiry',text});return;}catch(e){if(e.name==='AbortError')return;}}
  const url='https://wa.me/?text='+encodeURIComponent(text);window.open(url,'_blank','noopener');
 };
-function pdfFallback(){alert('PDF library unavailable. Use your browser Print dialog and select Save as PDF.');window.print();}
+/* Entirely native browser PDF workflow — no external PDF libraries or services. */
+const printSummary=document.getElementById('print-summary');
+function printElement(tag,content,parent,cls){
+ const el=document.createElement(tag);
+ if(cls)el.className=cls;
+ el.textContent=content;
+ parent.appendChild(el);
+ return el;
+}
+function buildPrintableSummary(){
+ printSummary.replaceChildren();
+ printSummary.hidden=false;
+ const name=document.getElementById('customer-name').value.trim();
+ const phone=document.getElementById('customer-phone').value.trim();
+ printElement('h1','MoSu Furniture',printSummary);
+ printElement('h2','Rental Enquiry Summary',printSummary);
+ printElement('p','Date: '+new Date().toLocaleDateString('en-IN'),printSummary,'print-meta');
+ if(name)printElement('p','Customer: '+name,printSummary,'print-meta');
+ if(phone)printElement('p','Phone: '+phone,printSummary,'print-meta');
+ const table=document.createElement('table');table.className='print-order-table';
+ const thead=document.createElement('thead'),headRow=document.createElement('tr');
+ ['#','Product / Variant / Color','Qty','Rent / month','Line total'].forEach(label=>printElement('th',label,headRow));
+ thead.appendChild(headRow);table.appendChild(thead);
+ const tbody=document.createElement('tbody');
+ cart.forEach((item,i)=>{
+  const row=document.createElement('tr');
+  [String(i+1),item.product+'\n'+item.variant,String(item.qty),money(item.price),money(item.price*item.qty)].forEach(value=>printElement('td',value,row));
+  tbody.appendChild(row);
+ });
+ table.appendChild(tbody);printSummary.appendChild(table);
+ printElement('p','Estimated monthly rent: '+money(cart.reduce((sum,item)=>sum+item.price*item.qty,0)),printSummary,'print-grand-total');
+ printElement('p','Delivery charges based on location. No deposit for working professionals. Minimum lock-in: 3 months. Prices subject to confirmation.',printSummary,'print-terms');
+}
+window.addEventListener('afterprint',()=>{printSummary.hidden=true;});
 document.getElementById('pdf-download').onclick=()=>{
  if(!cart.length){alert('Add at least one item first.');return;}
- if(!window.jspdf||!window.jspdf.jsPDF){pdfFallback();return;}
- try{
- const doc=new window.jspdf.jsPDF({unit:'mm',format:'a4'}),margin=15,pageWidth=210;
- const name=document.getElementById('customer-name').value.trim(),phone=document.getElementById('customer-phone').value.trim();
- doc.setFont('helvetica','bold');doc.setFontSize(19);doc.text('MoSu Furniture',margin,20);
- doc.setFontSize(12);doc.text('Rental Enquiry Summary',margin,28);
- doc.setFont('helvetica','normal');doc.setFontSize(10);doc.text('Date: '+new Date().toLocaleDateString('en-IN'),margin,36);
- let y=43;if(name){doc.text('Customer: '+name.slice(0,90),margin,y);y+=6;}if(phone){doc.text('Phone: '+phone.slice(0,40),margin,y);y+=6;}
- const rows=cart.map((x,i)=>[String(i+1),x.product+'\n'+x.variant,String(x.qty),'Rs. '+x.price.toLocaleString('en-IN'),'Rs. '+(x.qty*x.price).toLocaleString('en-IN')]);
- if(typeof doc.autoTable!=='function'){pdfFallback();return;}
- doc.autoTable({startY:y+3,head:[['#','Product / Variant','Qty','Rent / month','Line total']],body:rows,theme:'grid',margin:{left:margin,right:margin},styles:{fontSize:9,cellPadding:3,overflow:'linebreak'},headStyles:{fillColor:[75,38,15]},columnStyles:{0:{cellWidth:10},2:{cellWidth:14},3:{cellWidth:30},4:{cellWidth:30}}});
- y=doc.lastAutoTable.finalY+10;if(y>260){doc.addPage();y=20;}
- doc.setFont('helvetica','bold');doc.setFontSize(13);doc.text('Total estimated monthly rent: Rs. '+cart.reduce((sum,x)=>sum+x.price*x.qty,0).toLocaleString('en-IN'),margin,y);
- doc.setFont('helvetica','normal');doc.setFontSize(9);const note='Delivery charges based on location. No deposit for working professionals. Minimum lock-in: 3 months. Prices subject to confirmation.';
- doc.text(doc.splitTextToSize(note,pageWidth-2*margin),margin,y+9);
- doc.save('MoSu_Furniture_Rental_Enquiry.pdf');
- }catch(e){console.error(e);pdfFallback();}
+ buildPrintableSummary();
+ /* Browsers show their native print dialog; users choose Save as PDF. */
+ window.print();
 };
 renderCart();
 
