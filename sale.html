@@ -409,8 +409,7 @@ body {
  .print-order-table tr{break-inside:avoid;page-break-inside:avoid}
  .print-order-table thead{display:table-header-group}
  .print-grand-total{font-size:13pt;font-weight:700;margin-top:8mm}
- .print-terms{font-size:9pt;color:#555;line-height:1.5}
-}
+ }
 </style>
 <style>
 /* Consistent separation between product headings and pricing tables */
@@ -500,12 +499,13 @@ body {
 .cart-table .cart-qty { display:block; width:100%; max-width:74px; min-height:43px; padding:7px 4px; border:1px solid #ccc8c5; border-radius:9px; text-align:center; font-size:16px; margin:auto; box-sizing:border-box; }
 .cart-table .remove-item { color:#a12824; border:0; background:#fff0ef; border-radius:9px; min-width:34px; width:38px; height:38px; font-size:23px; cursor:pointer; }
 .cart-total { padding:16px 8px; border-top:0; font-size:18px; }
-.cart-actions { display:grid; grid-template-columns:1fr 1.7fr; gap:10px; }
-.cart-actions button { min-width:0; min-height:51px; border-radius:11px; font-size:14px; padding:11px; }
-.cart-actions #share-pdf { background:#1b7f47; color:#fff; }
-.cart-actions #clear-cart { grid-column:1/-1; background:#f3f3f3; color:#666; }
-.cart-share-hint { color:#646266; font-size:12px; line-height:1.55; margin:11px 0 0; }
-.cart-share-hint strong { color:#3c382e; }
+.cart-actions { display:flex; flex-direction:column; gap:10px; }
+.cart-actions button { min-width:0; min-height:49px; border-radius:11px; font-size:14px; padding:11px; }
+.download-order-section { width:100%; }
+.download-order-section #pdf-download { width:100%; font-weight:700; }
+.download-instruction { margin:10px 3px 4px; color:#646266; font-size:12px; line-height:1.6; text-align:center; }
+.download-instruction strong { color:#4b260f; }
+.cart-actions #clear-cart { align-self:stretch; background:#f3f3f3; color:#666; }
 .cart-empty { text-align:center; padding:25px 12px!important; color:#666; }
 @media(max-width:600px) {
  .cart-dialog { padding:18px 14px calc(18px + env(safe-area-inset-bottom)); }
@@ -524,9 +524,8 @@ body {
  .cart-table .cart-qty { max-width:60px; min-height:42px; }
  .cart-table .remove-item { width:30px; min-width:30px; height:36px; }
  .cart-total { font-size:16px; }
- .cart-actions { grid-template-columns:1fr; }
- .cart-actions #clear-cart { grid-column:auto; }
- .cart-actions #share-pdf { grid-row:1; }
+ .cart-actions { flex-direction:column; }
+ .download-instruction { font-size:12px; }
 }
 @media print {
  .cart-table-wrap,.cart-actions,.customer-fields { display:none!important; }
@@ -1255,7 +1254,6 @@ document.querySelectorAll('.product-card').forEach(card => {
 <div class="cart-modal" hidden id="cart-modal">
   <div aria-labelledby="cart-heading" aria-modal="true" class="cart-dialog" role="dialog">
     <div class="cart-heading-row"><h2 id="cart-heading">Your Rental Order Summary</h2><button aria-label="Close cart" id="cart-close" type="button">✕</button></div>
-    <p class="cart-note">Review your selected items and enter your details to prepare the order PDF.</p>
     <form class="customer-fields" id="customer-form" novalidate>
       <label>Name <span class="required-star">*</span><input id="customer-name" name="name" type="text" placeholder="Enter full name" autocomplete="name" maxlength="100" required/></label>
       <label>Phone <span class="required-star">*</span><input id="customer-phone" name="phone" type="tel" inputmode="tel" placeholder="Enter mobile number" autocomplete="tel" maxlength="18" required/></label>
@@ -1268,19 +1266,19 @@ document.querySelectorAll('.product-card').forEach(card => {
         <tbody id="cart-items"></tbody>
       </table>
     </div>
-    <div class="cart-total"><span>Estimated Monthly Rent</span><strong id="cart-total">₹0</strong></div>
-    <p class="cart-note">Delivery charges depend on location. No deposit for working professionals. Minimum lock-in: 3 months. Final pricing is subject to confirmation.</p>
+    <div class="cart-total"><span>Monthly Rent</span><strong id="cart-total">₹0</strong></div>
     <div class="cart-actions">
-      <button id="pdf-download" type="button">Download PDF</button>
-      <button id="share-pdf" type="button">📄 Share PDF to Place Order</button>
+      <div class="download-order-section">
+        <button id="pdf-download" type="button">Download PDF</button>
+        <p class="download-instruction">After downloading, send this PDF to WhatsApp No: <strong>8727805793</strong> for placing an order.</p>
+      </div>
       <button id="clear-cart" type="button">Clear Cart</button>
     </div>
-    <p class="cart-share-hint">Send your order PDF on WhatsApp to <strong><a href="https://wa.me/918727805793" target="_blank" rel="noopener noreferrer">Sagar: +91 8727805793</a></strong>. On phones with file sharing, choose WhatsApp and select Sagar. Otherwise, the PDF will download and Sagar’s WhatsApp chat will open so you can attach it.</p>
   </div>
 </div>
 <section id="print-summary" aria-label="Printable rental enquiry" hidden></section>
 <script>
-/* MoSu Furniture — standalone cart, validation, proper tables and PDF sharing.
+/* MoSu Furniture — standalone cart, validation, proper tables and PDF download.
    PDF is generated in the visitor's browser without any external library. */
 const CART_KEY = 'mosu-rental-cart-v1';
 let cart = [];
@@ -1472,8 +1470,7 @@ function buildPrintableSummary(customer) {
     body.appendChild(row);
   });
   table.appendChild(body); section.appendChild(table);
-  printElement('p', 'Estimated monthly rent: ' + money(totalRent()), section, 'print-grand-total');
-  printElement('p', 'Delivery charges depend on location. No deposit for working professionals. Minimum lock-in: 3 months. Prices subject to confirmation.', section, 'print-terms');
+  printElement('p', 'Monthly Rent: ' + money(totalRent()), section, 'print-grand-total');
 }
 
 /* Raster-based, multi-page A4 PDF creation: no CDN or external services needed.
@@ -1595,17 +1592,14 @@ function drawPdfRow(page, item, index) {
 }
 function drawPdfTotal(page) {
   const { ctx } = page;
-  if (page.y + 160 > PDF_HEIGHT - 97) return false;
+  if (page.y + 112 > PDF_HEIGHT - 97) return false;
   const y = page.y + 25;
   ctx.fillStyle = '#f8f0e2'; ctx.fillRect(PDF_MARGIN, y, PDF_RIGHT - PDF_MARGIN, 77);
   ctx.fillStyle = '#4b260f'; ctx.font = 'bold 27px Arial, sans-serif';
-  ctx.fillText('ESTIMATED MONTHLY RENT', PDF_MARGIN + 17, y + 23);
+  ctx.fillText('MONTHLY RENT', PDF_MARGIN + 17, y + 23);
   ctx.textAlign = 'right'; ctx.font = 'bold 33px Arial, sans-serif';
   ctx.fillText(money(totalRent()), PDF_RIGHT - 18, y + 21);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#5a5550'; ctx.font = '19px Arial, sans-serif';
-  const notice = 'Delivery charges depend on location. No deposit for working professionals. Minimum lock-in: 3 months. Prices subject to confirmation.';
-  drawLines(ctx, textLines(ctx, notice, PDF_RIGHT - PDF_MARGIN - 20), PDF_MARGIN + 4, y + 95, 25);
   return true;
 }
 function drawPdfFooter(page, totalPages) {
@@ -1710,52 +1704,6 @@ document.getElementById('pdf-download').addEventListener('click', () => {
   }
 });
 
-document.getElementById('share-pdf').addEventListener('click', async () => {
-  const customer = validateOrder();
-  if (!customer) return;
-  let blob;
-  try { blob = makePdf(customer); }
-  catch (error) { console.error('PDF generation failed', error); alert('Unable to create the PDF. Please try Download PDF.'); return; }
-  const filename = pdfFilename(customer.name);
-  const message = 'MoSu Furniture rental order PDF for ' + customer.name + '. Please send this file to Sagar on WhatsApp: +91 8727805793.';
-
-  // Android / iOS: native share sheet can share the PDF as an attachment.
-  // A website cannot automatically choose a specific WhatsApp recipient.
-  if (navigator.share && navigator.canShare && typeof File !== 'undefined') {
-    const file = new File([blob], filename, { type: 'application/pdf' });
-    if (navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({ title: 'MoSu Furniture Rental Order', text: message, files: [file] });
-        return;
-      } catch (error) {
-        if (error.name === 'AbortError') return; // Visitor cancelled the share sheet.
-        console.warn('File share unavailable; opening Sagar WhatsApp chat', error);
-      }
-    }
-  }
-  // Desktop / unsupported file sharing: save the PDF then open Sagar's exact chat.
-  // The user attaches the downloaded PDF there; wa.me cannot attach files automatically.
-  downloadPdf(blob, filename);
-  const hello = 'Hello Sagar, I would like to place a furniture rental order.\n' +
-    'Name: ' + customer.name + '\nPhone: ' + customer.phone + '\n' +
-    'Delivery address: ' + customer.address + '\n' +
-    'Estimated monthly rent: ' + money(totalRent()) + '\n' +
-    'I am attaching the MoSu rental order PDF with all selected items.';
-  const whatsapp = 'https://wa.me/918727805793?text=' + encodeURIComponent(hello);
-  const opened = window.open(whatsapp, '_blank', 'noopener');
-  // Some browsers return null for noopener even when the new tab is opened.
-  // Do not use a second navigation here, which could open two chats.
-  if (!opened) {
-    const hint = document.querySelector('.cart-share-hint');
-    const link = document.createElement('a');
-    link.href = whatsapp;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.textContent = 'Open Sagar’s WhatsApp chat';
-    hint.replaceChildren(document.createTextNode('PDF downloaded. If WhatsApp did not open, '),
-      link, document.createTextNode(' and attach the downloaded PDF.'));
-  }
-});
 renderCart();
 
 </script></body>
