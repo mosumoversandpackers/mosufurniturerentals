@@ -1,9 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
 <style>
 :root {
     --app-padding: 20px;
@@ -367,666 +367,637 @@ body {
         padding: 10px 8px;
     }
 }
+
+/* CART & VARIANT CONTROLS */
+.add-to-cart-panel{margin-top:14px;padding-top:14px;border-top:1px solid #e5e5ea}
+.cart-label,.qty-label{font-size:13px;font-weight:600;color:#444}
+.variant-select{width:100%;margin-top:7px;padding:11px 9px;border:1px solid #d1d1d6;border-radius:10px;background:#fff;color:#1c1c1e;font:inherit;font-size:13px}
+.cart-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.qty-input{width:65px;padding:10px 5px;border:1px solid #d1d1d6;border-radius:10px;text-align:center;font-size:15px}
+.add-cart-btn,.cart-actions button{border:0;border-radius:11px;padding:12px 15px;background:#4b260f;color:#fff;font-weight:650;cursor:pointer}
+.add-cart-btn{flex:1}
+#cart-floating{position:fixed;bottom:22px;right:20px;z-index:120;background:#4b260f;color:white;border:0;border-radius:40px;padding:14px 19px;box-shadow:0 7px 25px #0003;font-size:15px;font-weight:700;cursor:pointer}
+#cart-count{background:#c18a4c;border-radius:20px;padding:3px 8px;margin-left:6px}
+.cart-modal[hidden]{display:none!important}.cart-modal{position:fixed;inset:0;z-index:200;background:#0008;display:flex;justify-content:center;align-items:center;padding:12px}
+.cart-dialog{background:#fff;border-radius:22px;width:min(760px,100%);max-height:92vh;overflow-y:auto;padding:22px;box-sizing:border-box}
+.cart-heading-row{display:flex;justify-content:space-between;align-items:center;gap:10px}.cart-heading-row h2{margin:0;font-size:21px}.cart-heading-row button{border:0;background:#f2f2f7;border-radius:50%;width:35px;height:35px;cursor:pointer}
+.cart-note{color:#636366;font-size:13px;line-height:1.5}.customer-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.customer-fields label{font-size:12px;font-weight:600}.customer-fields input{box-sizing:border-box;width:100%;padding:11px;margin-top:6px;border:1px solid #ddd;border-radius:9px;font-size:14px}
+.cart-row{display:grid;grid-template-columns:minmax(0,1fr) 76px 90px 28px;gap:8px;align-items:center;border-bottom:1px solid #eee;padding:13px 0;font-size:13px}.cart-row strong{display:block;font-size:14px}.cart-row small{display:block;color:#666;margin-top:4px}.cart-row input{width:65px;box-sizing:border-box;padding:8px;border:1px solid #ddd;border-radius:8px}.cart-row .remove-item{border:0;background:none;color:#b42318;font-size:20px;cursor:pointer}.cart-line-total{text-align:right;font-weight:700}
+.cart-total{display:flex;justify-content:space-between;gap:12px;padding:17px 0;font-size:17px;border-top:2px solid #ddd}.cart-actions{display:flex;flex-wrap:wrap;gap:9px}.cart-actions button{flex:1;min-width:120px}.cart-actions #clear-cart{background:#e5e5ea;color:#333}
+@media(max-width:550px){.cart-dialog{padding:16px}.customer-fields{grid-template-columns:1fr}.cart-row{grid-template-columns:minmax(0,1fr) 57px 67px 20px;gap:5px}.cart-row input{width:55px}.cart-row small{font-size:11px}.cart-line-total{font-size:12px}}
+@media print{.header,.feed,#cart-floating,.cart-actions,.cart-heading-row button{display:none!important}.cart-modal{position:static;background:white;padding:0}.cart-dialog{max-height:none;overflow:visible;width:100%;padding:0}.cart-row .remove-item,.cart-row input{display:none}}
+
+/* Browser-native, server-free PDF through Print > Save as PDF. */
+#print-summary{display:none}
+@page{size:A4;margin:15mm}
+@media print{
+ html,body{margin:0!important;padding:0!important;background:#fff!important;color:#1c1c1e!important;font-family:Arial,sans-serif!important}
+ body > *:not(#print-summary){display:none!important}
+ #print-summary[hidden]{display:none!important}
+ #print-summary{display:block!important;position:static!important;padding:0!important;width:100%!important;font-size:11pt!important}
+ #print-summary h1{font-size:23pt;margin:0 0 3mm;color:#4b260f}
+ #print-summary h2{font-size:14pt;margin:0 0 6mm}
+ #print-summary .print-meta{margin:1mm 0;font-size:10pt}
+ .print-order-table{width:100%;border-collapse:collapse;margin-top:8mm;font-size:9pt;table-layout:fixed}
+ .print-order-table th,.print-order-table td{border:1px solid #ccc;padding:3mm 2mm;text-align:left;vertical-align:top;overflow-wrap:anywhere;white-space:pre-line}
+ .print-order-table th{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .print-order-table th:nth-child(1){width:6%}
+ .print-order-table th:nth-child(2){width:44%}
+ .print-order-table th:nth-child(3){width:8%}
+ .print-order-table th:nth-child(4){width:19%}
+ .print-order-table th:nth-child(5){width:23%}
+ .print-order-table tr{break-inside:avoid;page-break-inside:avoid}
+ .print-order-table thead{display:table-header-group}
+ .print-grand-total{font-size:13pt;font-weight:700;margin-top:8mm}
+ }
 </style>
-</head>
+<style>
+/* Consistent separation between product headings and pricing tables */
+.info-panel > .price-table, .info-panel > .table-scroll {margin-top:14px;}
+.info-panel .title + .price-table {margin-top:14px;}
+.info-panel .desc + .price-table {margin-top:14px;}
+.product-option-field {margin-top:12px;}
+.product-option-field .cart-label {display:block;margin-bottom:7px;}
+.color-select,.sofa-code-input {box-sizing:border-box;display:block;width:100%;min-width:0;min-height:46px;border:1px solid #c7c7cc;border-radius:12px;background:#fff;color:#1c1c1e;font:inherit;font-size:16px;padding:10px 12px;}
+.variant-select {box-sizing:border-box;min-width:0;min-height:46px;font-size:16px;padding:10px 12px;}
+.qty-input {min-width:0;min-height:46px;font-size:16px!important;box-sizing:border-box;}
+.cart-controls {display:grid;grid-template-columns:auto minmax(65px,90px) minmax(0,1fr);gap:9px;align-items:center;}
+.add-cart-btn {min-width:0;min-height:46px;line-height:1.2;font-size:14px;padding:12px 10px;}
+.cart-label {display:block;}
+.cart-dialog {overscroll-behavior:contain;}
+.cart-row {grid-template-columns:minmax(0,1fr) 74px 95px 32px;}
+.cart-row input {width:100%;min-height:44px;font-size:16px;}
+.cart-row .remove-item {min-width:34px;min-height:44px;font-size:25px;}
+.cart-actions button {min-height:46px;font-size:14px;}
+.cart-empty {text-align:center;padding:18px 6px;}
+#cart-floating {min-height:50px;}
+@media(max-width:600px){
+ .info-panel {padding:16px 16px 20px;}
+ .info-panel > .price-table,.info-panel > .table-scroll {margin-top:14px;}
+ .price-table {font-size:12px;}
+ .price-table th,.price-table td {padding:8px 5px;overflow-wrap:anywhere;}
+ .cart-controls {grid-template-columns:auto minmax(58px,78px) minmax(0,1fr);gap:7px;}
+ .add-cart-btn {font-size:13px;padding:11px 8px;}
+ #cart-floating {position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));width:calc(100% - 24px);border-radius:15px;text-align:center;z-index:120;}
+ .feed {padding-bottom:105px;}
+ .cart-modal {padding:0;align-items:flex-end;}
+ .cart-dialog {width:100%;max-height:calc(100dvh - 12px);height:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom));}
+ .cart-heading-row {position:sticky;top:-18px;z-index:2;background:#fff;padding:7px 0 13px;}
+ .customer-fields {grid-template-columns:1fr;gap:12px;margin:14px 0;}
+ .customer-fields input {min-height:45px;font-size:16px;}
+ .cart-row {grid-template-columns:minmax(0,1fr) 66px 30px;grid-template-areas:'info qty remove' 'info total total';gap:5px 8px;align-items:center;padding:13px 0;}
+ .cart-row .cart-item-info {grid-area:info;min-width:0;overflow-wrap:anywhere;}
+ .cart-row .cart-qty {grid-area:qty;}
+ .cart-row .cart-line-total {grid-area:total;text-align:right;font-size:14px;}
+ .cart-row .remove-item {grid-area:remove;}
+ .cart-row strong {font-size:14px;}
+ .cart-row small {font-size:12px;line-height:1.5;}
+ .cart-actions {display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+ .cart-actions button {min-width:0;padding:11px 8px;}
+ .cart-actions #clear-cart {grid-column:1/-1;}
+ .cart-total {position:sticky;bottom:-1px;background:#fff;z-index:1;padding:14px 0;}
+}
+@media(max-width:360px){.cart-controls{grid-template-columns:auto 62px minmax(0,1fr)}.add-cart-btn{font-size:12px}.cart-dialog{padding-left:12px;padding-right:12px}}
+</style>
+<style>
 
+/* ===== Improved rental enquiry, readable order table and mobile layout ===== */
+.cart-dialog { width:min(960px,100%); max-height:94dvh; }
+.cart-note { margin:9px 0 15px; line-height:1.55; }
+.customer-fields { grid-template-columns:1fr 1fr; gap:14px; margin:18px 0 21px; }
+.customer-fields label { display:block; font-size:13px; font-weight:650; color:#383838; }
+.customer-fields label.address-field { grid-column:1 / -1; }
+.customer-fields input,.customer-fields textarea {
+ box-sizing:border-box; width:100%; min-height:47px; margin-top:7px; padding:11px 13px;
+ border:1px solid #d0d0d5; border-radius:11px; font:inherit; font-size:16px;
+ background:#fff; color:#1c1c1e;
+}
+.customer-fields input,.customer-fields textarea { display:block; }
+.customer-fields textarea { resize:vertical; min-height:77px; }
+.customer-fields input:focus,.customer-fields textarea:focus { outline:2px solid #c18a4c; outline-offset:1px; border-color:#c18a4c; }
+.required-star { color:#a9271e; }
+.cart-section-title { font-size:15px; font-weight:750; margin:18px 0 9px; }
+.cart-table-wrap { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid #e1ddd9; border-radius:12px; }
+.cart-table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:13px; }
+.cart-table th:nth-child(1),.cart-table td:nth-child(1) { width:40%; }
+.cart-table th:nth-child(2),.cart-table td:nth-child(2) { width:12%; }
+.cart-table th:nth-child(3),.cart-table td:nth-child(3) { width:18%; }
+.cart-table th:nth-child(4),.cart-table td:nth-child(4) { width:20%; }
+.cart-table th:nth-child(5),.cart-table td:nth-child(5) { width:10%; }
+.cart-table thead { background:#f8f0e2; }
+.cart-table th,.cart-table td { box-sizing:border-box; }
+.cart-table th { color:#4b260f; font-weight:750; padding:12px 9px; text-align:left; border-bottom:1px solid #ddd3c9; }
+.cart-table th:nth-child(2),.cart-table th:nth-child(3),.cart-table th:nth-child(4) { text-align:center; }
+.cart-table td { padding:12px 9px; vertical-align:middle; border-bottom:1px solid #eee9e4; overflow-wrap:anywhere; }
+.cart-table tbody tr:last-child td { border-bottom:0; }
+.cart-table tbody tr:nth-child(even) { background:#fffcfa; }
+.cart-table .item-name { display:block; font-weight:750; color:#222; font-size:13px; line-height:1.35; }
+.cart-table .item-variant { display:block; font-weight:400; color:#646266; font-size:12px; line-height:1.55; margin-top:5px; }
+.cart-table .mobile-unit-price { display:none; }
+.cart-table .cell-price,.cart-table .cell-total,.cart-table .cell-qty,.cart-table .cell-remove { text-align:center; }
+.cart-table .cell-total { font-weight:750; color:#332013; }
+.cart-table .cart-qty { display:block; width:100%; max-width:74px; min-height:43px; padding:7px 4px; border:1px solid #ccc8c5; border-radius:9px; text-align:center; font-size:16px; margin:auto; box-sizing:border-box; }
+.cart-table .remove-item { color:#a12824; border:0; background:#fff0ef; border-radius:9px; min-width:34px; width:38px; height:38px; font-size:23px; cursor:pointer; }
+.cart-total { padding:16px 8px; border-top:0; font-size:18px; }
+.cart-actions { display:flex; flex-direction:column; gap:10px; }
+.cart-actions button { min-width:0; min-height:49px; border-radius:11px; font-size:14px; padding:11px; }
+.download-order-section { width:100%; }
+.download-order-section #pdf-download { width:100%; font-weight:700; }
+.download-instruction { margin:10px 3px 4px; color:#646266; font-size:12px; line-height:1.6; text-align:center; }
+.download-instruction strong { color:#4b260f; }
+.cart-actions #clear-cart { align-self:stretch; background:#f3f3f3; color:#666; }
+.cart-empty { text-align:center; padding:25px 12px!important; color:#666; }
+@media(max-width:600px) {
+ .cart-dialog { padding:18px 14px calc(18px + env(safe-area-inset-bottom)); }
+ .customer-fields { grid-template-columns:1fr; gap:12px; }
+ .customer-fields label.address-field { grid-column:auto; }
+ .cart-table { font-size:12px; }
+ .cart-table th:nth-child(1),.cart-table td:nth-child(1) { width:45%; }
+ .cart-table th:nth-child(2),.cart-table td:nth-child(2) { width:17%; }
+ .cart-table th:nth-child(4),.cart-table td:nth-child(4) { width:26%; }
+ .cart-table th:nth-child(5),.cart-table td:nth-child(5) { width:12%; }
+ .cart-table th,.cart-table td { padding:10px 5px; }
+ .cart-table .desktop-price-column { display:none; }
+ .cart-table .mobile-unit-price { display:block; margin-top:5px; color:#8a603e; font-size:11px; }
+ .cart-table .item-name { font-size:12px; }
+ .cart-table .item-variant { font-size:11px; }
+ .cart-table .cart-qty { max-width:60px; min-height:42px; }
+ .cart-table .remove-item { width:30px; min-width:30px; height:36px; }
+ .cart-total { font-size:16px; }
+ .cart-actions { flex-direction:column; }
+ .download-instruction { font-size:12px; }
+}
+@media print {
+ .cart-table-wrap,.cart-actions,.customer-fields { display:none!important; }
+ #print-summary { display:block!important; }
+ #print-summary .print-customer-table { width:100%; border-collapse:collapse; margin:5mm 0; }
+ #print-summary .print-customer-table td { padding:2.5mm; border:1px solid #ddd; }
+ #print-summary .print-customer-table td:first-child { width:26%; font-weight:bold; background:#f8f0e2!important; }
+ #print-summary .print-order-table th:nth-child(1) { width:5%; }
+ #print-summary .print-order-table th:nth-child(2) { width:27%; }
+ #print-summary .print-order-table th:nth-child(3) { width:31%; }
+ #print-summary .print-order-table th:nth-child(4) { width:8%; }
+ #print-summary .print-order-table th:nth-child(5) { width:14%; }
+ #print-summary .print-order-table th:nth-child(6) { width:15%; }
+}
+
+</style></head>
 <body>
-
 <header class="header">
-    <h1>MoSu Furniture</h1>
+<h1>MoSu Furniture</h1>
 </header>
-
 <div class="feed">
-
-    <!-- ==================== INFO ==================== -->
-
-    <section class="info-section">
-        <ul>
-            <li><strong>Deposit</strong>: No Deposit for working professionals</li>
-            <li><strong>Lock-in period</strong>: 3 months </li>
-            <li><strong>Delivery </strong>: Charges based on delivery location</li>
-        </ul>
-    </section>
-
-    <!-- ==================== CATEGORY TABS ==================== -->
-
-    <div class="category-tabs">
-        <button class="category-tab active" data-category="furniture">
+<!-- ==================== INFO ==================== -->
+<section class="info-section">
+<ul>
+<li><strong>Deposit</strong>: No Deposit for working professionals</li>
+<li><strong>Lock-in period</strong>: 3 months </li>
+<li><strong>Delivery </strong>: Charges based on delivery location</li>
+</ul>
+</section>
+<!-- ==================== CATEGORY TABS ==================== -->
+<div class="category-tabs">
+<button class="category-tab active" data-category="furniture">
             Furniture
         </button>
-
-        <button class="category-tab" data-category="electronics">
+<button class="category-tab" data-category="electronics">
             Electronics
         </button>
-    </div>
-
-
-    <!-- ==================== FURNITURE ITEMS ==================== -->
-
-    <section class="product-card furniture-item">
-        <div class="image-gallery">
-            <img src="Color Options.jpeg" loading="eager" decoding="async">
-        </div>
-
-        <div class="info-panel">
-            <h2 class="title">Choose Your Color</h2>
-            <p class="desc">Off White | Wenge | Walnut | Wooden</p>
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
-
-        <div class="image-gallery gallery-65">
-            <img src="Essential Mattress.png?w=800" loading="lazy" decoding="async">
-            <img src="Single Mattress.png?w=800" loading="lazy" decoding="async">
-            <img src="Elite Mattress.png?w=800" loading="lazy" decoding="async">
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title mattress-title">Mattress</h2>
-
-            <table class="price-table">
-                <thead>
-                    <tr>
-                        <th>Variant</th>
-                        <th>3 × 6 (ft)</th>
-                        <th>5 × 6 (ft)</th>
-                        <th>6 × 6 (ft)</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>Standard</td>
-                        <td>Rs.199/-</td>
-                        <td>Rs.299/-</td>
-                        <td>Rs.349/-</td>
-                    </tr>
-
-                    <tr>
-                        <td>Premium</td>
-                        <td>Rs.249/-</td>
-                        <td>Rs.349/-</td>
-                        <td>Rs.449/-</td>
-                    </tr>
-
-                    <tr>
-                        <td>Elite</td>
-                        <td>Rs.299/-</td>
-                        <td>Rs.449/-</td>
-                        <td>Rs.499/-</td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="image-gallery">
-            <img src="Bedside Table.png" loading="lazy" decoding="async">
-        </div>
-
-        <div class="info-panel">
-            <h2 class="title">Bedside Table</h2>
-            <p class="desc">Size: 1.25 * 1.25 (ft) | Rs.149/-</p>
-        </div>
-
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-        </div>
-
-        <div class="image-gallery">
-
-            <img src="2 Door Shoe.png" loading="lazy" decoding="async">
-            <img src="3 Door Shoe.png" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Small Almirah or Shoe Rack</h2>
-
-            <div class="desc">
-                2 Door | Size: 2 * 3 (ft) | Rs.249/-<br>
-                3 Door | Size: 3 * 3 (ft) | Rs.349/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="image-gallery gallery-60">
-            <img src="Single Wooden Bed.png?w=800" loading="lazy" decoding="async">
-        </div>
-
-        <div class="info-panel">
-            <h2 class="title">Wooden Single Bed With Storage</h2>
-            <div class="desc">Size: 3 * 6 (ft) | Rs.399/-</div>
-        </div>
-
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-        </div>
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Almirah 1.png?w=800" loading="lazy" decoding="async">
-            <img src="Almirah 2.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">2 Door Almirah with Mirror</h2>
-
-            <div class="desc">
-                Size: 2 × 6.15 (ft) | Rs.349/-<br>
-                Size: 2.5 × 6.15 (ft) | Rs.399/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Dressing1.png?w=800" loading="lazy" decoding="async">
-            <img src="Dressing2.png?w=800" loading="lazy" decoding="async">
-            <img src="Dressing Table with Slab.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Dressing Table</h2>
-
-            <div class="desc">
-                Classic | Size: 1.5 * 6.5 (ft) | Rs.299/-<br>
-                Premium | Size: 2 * 6.5 (ft) | Rs.399/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Crockery.png?w=800" loading="lazy" decoding="async">
-            <img src="Crockery Drawer.png?w=800" loading="lazy" decoding="async">
-            <img src="Crockery Drawer Open.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Crockery Cabinet or Multi Purpose Almirah</h2>
-
-            <div class="desc">
-                Classic | Size: 2.5 * 6.15 (ft) | Rs.449/-<br>
-                Premium | Size: 2.5 * 6.15 (ft) | Rs.499/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-
-        </div>
-
-        <div class="image-gallery office-chair-gallery gallery-55">
-
-            <img src="Low Mesh Chair.jpeg" loading="lazy" decoding="async">
-            <img src="Medium Mesh Chair.jpeg" loading="lazy" decoding="async">
-            <img src="Medium Mesh Chair Back.jpeg" loading="lazy" decoding="async">
-            <img src="Headrest Chair.jpeg" loading="lazy" decoding="async">
-            <img src="Headrest Chair Back.jpeg" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Black Office Chair</h2>
-
-            <div class="desc">
-                Zig Zag Mesh | Rs.199/-<br>
-                Lumbar Mesh | Rs.299/-<br>
-                Headrest Mesh | Rs.349/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Basic Table.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Table</h2>
-
-            <div class="desc">
-                Size: 2 * 3 (ft) | Height: 2.5 ft | Rs.149/-<br>
-                Size: 2.5 * 4 (ft) | Height: 2.5 ft | Rs.199/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-        </div>
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Computer One.png?w=800" loading="lazy" decoding="async">
-            <img src="ComputerTable2.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Computer Table</h2>
-
-            <div class="desc">
-                One Side Storage<br>
-                Size: 2 * 3 (ft) | Height: 2.5 (ft) | Rs.249/-
-            </div>
-
-            <div class="desc">
-                Both Side Storage<br>
-                Size: 2 * 4 (ft) | Height: 2.5 (ft) | Rs.299/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-        </div>
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Coffee Table 1.png?w=800" loading="lazy" decoding="async">
-            <img src="Coffee Table2.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Coffee Table</h2>
-
-            <div class="desc">
-                Essential<br>
-                Size: 1.5 * 2.5 (ft) | Height: 2.5 (ft) | Rs.149/-
-            </div>
-
-            <div class="desc">
-                Classic<br>
-                Size: 1.5 * 2.5 (ft) | Height: 2.5 (ft) | Rs.199/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-        </div>
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Foldable Table.png?w=800" loading="lazy" decoding="async">
-            <img src="Foldable Table DD.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Foldable Table</h2>
-
-            <table class="price-table">
-
-                <thead>
-                    <tr>
-                        <th>Variant</th>
-                        <th>1.5 × 2.5 (ft)</th>
-                        <th>2 × 3 (ft)</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>Standard</td>
-                        <td>Rs.199/-</td>
-                        <td>Rs.249/-</td>
-                    </tr>
-
-                    <tr>
-                        <td>Double Decker</td>
-                        <td>Rs.249/-</td>
-                        <td>Rs.299/-</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Queen Double Bed.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Wooden Double Bed With Storage</h2>
-
-            <table class="price-table">
-
-                <thead>
-                    <tr>
-                        <th>Size</th>
-                        <th>Rent</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>5 × 6 (ft)</td>
-                        <td>Rs.799/-</td>
-                    </tr>
-
-                    <tr>
-                        <td>6 × 6 (ft)</td>
-                        <td>Rs.899/-</td>
-                    </tr>
-                </tbody>
-
-            </table>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="dots-container">
-
-            <span class="dot active"></span>
-            <span class="dot"></span>
-
-        </div>
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Sofa Set.png?w=800" loading="lazy" decoding="async">
-            <img src="Sofa Color.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Sofa Set and Table</h2>
-
-            <div class="desc">
-                Choose a Sofa color (1–10) from next Image
-            </div>
-
-            <div class="desc">
-                2 Seater Sofa | Rs.499/-<br>
-                3 Seater Sofa | Rs.699/-<br>
-                5 Seater Sofa | Rs.999/-<br>
-                Center Table | Rs.149/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="product-card furniture-item">
-
-        <div class="image-gallery gallery-60">
-
-            <img src="TV Unit.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">TV Unit</h2>
-
-            <div class="desc">
-                Size: 5 ft | Rs.399/-<br>
-                Size: 6 ft | Rs.499/-
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- ==================== ELECTRONICS ITEMS ==================== -->
- <section class="product-card electronics-item hidden">
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Monitor.jpg?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Monitor Full HD</h2>
-
-            <p class="desc">
-                Size: 24 Inch | Rent: Rs.599/-
-            </p>
-        </div>
-    </section>
-    <section class="product-card electronics-item hidden">
-
-        <div class="dots-container">
-
-            <span class="dot active"></span>
-            <span class="dot"></span>
-                        <span class="dot"></span>
-
-                        <span class="dot"></span>
-        </div>
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Fridge 1.png?w=800" loading="lazy" decoding="async">
-            <img src="Fridge 2.png?w=800" loading="lazy" decoding="async">
-            <img src="DD Fridge1.png?w=800" loading="lazy" decoding="async">
-            <img src="DD Fridge2.png?w=800" loading="lazy" decoding="async">
-
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Refrigerator or Fridge</h2><br/>
-
-            <table class="price-table">
-
-                <thead>
-                    <tr>
-                 <th>Variant</th>
-                        <th>Capacity</th>
-                        <th>Rent</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                    <td>Single Door</td>
-                        <td>185 Litre</td>
-                        <td>Rs.599/-</td>
-                    </tr>
-
-                    <tr>
-              <td>Double Door</td>
-                        <td>245 Litre</td>
-                        <td>Rs.1199/-</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-            <p class="desc">
-                Repair & Maintenance — Absolutely Free From Our Side
-            </p>
-
-        </div>
-    </section>
-    <section class="product-card electronics-item hidden">
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Washing Machine.png?w=800" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Fully Automatic Washing Machine Top Loaded</h2>
-
-            <p class="desc">
-                Capacity: 6 - 7 Kg | Rent: Rs.649/-
-            </p>
-
-            <p class="desc">
-                Installation | Repair & Maintenance — Absolutely Free From Our Side
-            </p>
-
-        </div>
-    </section>
-
-
-    <section class="product-card electronics-item hidden">
-
-        <div class="image-gallery gallery-60">
-
-            <img src="Television.jpg" loading="lazy" decoding="async">
-
-        </div>
-
-        <div class="info-panel">
-
-            <h2 class="title">Television</h2><br/>
-
-            <table class="price-table">
-
-                <thead>
-                    <tr>
-                        <th>Size</th>
-                        <th>Ultra HD</th>
-                        <th>LED</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>43 Inch</td>
-                        <td>Rs.1299/-</td>
-                        <td>Rs.1499/-</td>
-                    </tr>
-
-                    <tr>
-                        <td>55 Inch</td>
-                        <td>Rs.1799/-</td>
-                        <td>Rs.1999/-</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-            <p class="desc">
-                Installation | Repair & Maintenance — Absolutely Free From Our Side
-            </p>
-
-        </div>
-    </section>
-
 </div>
-
-
+<!-- ==================== FURNITURE ITEMS ==================== -->
+<section class="product-card furniture-item">
+<div class="image-gallery">
+<img decoding="async" loading="eager" src="Color Options.jpeg"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Choose Your Color</h2>
+<p class="desc">Off White | Wenge | Walnut | Wooden</p>
+</div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery gallery-65">
+<img decoding="async" loading="lazy" src="Essential Mattress.png?w=800"/>
+<img decoding="async" loading="lazy" src="Single Mattress.png?w=800"/>
+<img decoding="async" loading="lazy" src="Elite Mattress.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title mattress-title">Mattress</h2>
+<table class="price-table">
+<thead>
+<tr>
+<th>Variant</th>
+<th>3 × 6 (ft)</th>
+<th>5 × 6 (ft)</th>
+<th>6 × 6 (ft)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard</td>
+<td>Rs.199/-</td>
+<td>Rs.299/-</td>
+<td>Rs.349/-</td>
+</tr>
+<tr>
+<td>Premium</td>
+<td>Rs.249/-</td>
+<td>Rs.349/-</td>
+<td>Rs.449/-</td>
+</tr>
+<tr>
+<td>Elite</td>
+<td>Rs.299/-</td>
+<td>Rs.449/-</td>
+<td>Rs.499/-</td>
+</tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Mattress variant" class="variant-select"><option data-price="199" value="Standard • 3 × 6 (ft)">Standard • 3 × 6 (ft) — Rs.199/-</option><option data-price="299" value="Standard • 5 × 6 (ft)">Standard • 5 × 6 (ft) — Rs.299/-</option><option data-price="349" value="Standard • 6 × 6 (ft)">Standard • 6 × 6 (ft) — Rs.349/-</option><option data-price="249" value="Premium • 3 × 6 (ft)">Premium • 3 × 6 (ft) — Rs.249/-</option><option data-price="349" value="Premium • 5 × 6 (ft)">Premium • 5 × 6 (ft) — Rs.349/-</option><option data-price="449" value="Premium • 6 × 6 (ft)">Premium • 6 × 6 (ft) — Rs.449/-</option><option data-price="299" value="Elite • 3 × 6 (ft)">Elite • 3 × 6 (ft) — Rs.299/-</option><option data-price="449" value="Elite • 5 × 6 (ft)">Elite • 5 × 6 (ft) — Rs.449/-</option><option data-price="499" value="Elite • 6 × 6 (ft)">Elite • 6 × 6 (ft) — Rs.499/-</option></select><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Mattress" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="image-gallery">
+<img decoding="async" loading="lazy" src="Bedside Table.png"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Bedside Table</h2>
+<table class="price-table">
+<thead><tr><th>Size</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>1.25 × 1.25 (ft)</td><td>Rs.149/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Bedside Table variant" class="variant-select"><option data-price="149" value="1.25 × 1.25 (ft)">1.25 × 1.25 (ft) — Rs.149/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Bedside Table" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Bedside Table" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery">
+<img decoding="async" loading="lazy" src="2 Door Shoe.png"/>
+<img decoding="async" loading="lazy" src="3 Door Shoe.png"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Small Almirah or Shoe Rack</h2>
+<table class="price-table">
+<thead><tr><th>Variant</th><th>Size</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>2 Door</td><td>2 × 3 (ft)</td><td>Rs.249/-</td></tr>
+<tr><td>3 Door</td><td>3 × 3 (ft)</td><td>Rs.349/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Small Almirah or Shoe Rack variant" class="variant-select"><option data-price="249" value="2 Door • 2 × 3 (ft)">2 Door • 2 × 3 (ft) — Rs.249/-</option><option data-price="349" value="3 Door • 3 × 3 (ft)">3 Door • 3 × 3 (ft) — Rs.349/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Small Almirah or Shoe Rack" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Small Almirah or Shoe Rack" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Single Wooden Bed.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Wooden Single Bed With Storage</h2>
+<table class="price-table">
+<thead><tr><th>Size</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>3 × 6 (ft)</td><td>Rs.399/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Wooden Single Bed With Storage variant" class="variant-select"><option data-price="399" value="3 × 6 (ft)">3 × 6 (ft) — Rs.399/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Wooden Single Bed With Storage" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Wooden Single Bed With Storage" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Almirah 1.png?w=800"/>
+<img decoding="async" loading="lazy" src="Almirah 2.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">2 Door Almirah with Mirror</h2>
+<table class="price-table">
+<thead><tr><th>Size</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>2 × 6.15 (ft)</td><td>Rs.349/-</td></tr>
+<tr><td>2.5 × 6.15 (ft)</td><td>Rs.399/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select 2 Door Almirah with Mirror variant" class="variant-select"><option data-price="349" value="2 × 6.15 (ft)">2 × 6.15 (ft) — Rs.349/-</option><option data-price="399" value="2.5 × 6.15 (ft)">2.5 × 6.15 (ft) — Rs.399/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for 2 Door Almirah with Mirror" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="2 Door Almirah with Mirror" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Dressing1.png?w=800"/>
+<img decoding="async" loading="lazy" src="Dressing2.png?w=800"/>
+<img decoding="async" loading="lazy" src="Dressing Table with Slab.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Dressing Table</h2>
+<table class="price-table">
+<thead><tr><th>Variant</th><th>Size</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>Classic</td><td>1.5 × 6.5 (ft)</td><td>Rs.299/-</td></tr>
+<tr><td>Premium</td><td>2 × 6.5 (ft)</td><td>Rs.399/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Dressing Table variant" class="variant-select"><option data-price="299" value="Classic • 1.5 × 6.5 (ft)">Classic • 1.5 × 6.5 (ft) — Rs.299/-</option><option data-price="399" value="Premium • 2 × 6.5 (ft)">Premium • 2 × 6.5 (ft) — Rs.399/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Dressing Table" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Dressing Table" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Crockery.png?w=800"/>
+<img decoding="async" loading="lazy" src="Crockery Drawer.png?w=800"/>
+<img decoding="async" loading="lazy" src="Crockery Drawer Open.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Crockery Cabinet or Multi Purpose Almirah</h2>
+<table class="price-table">
+<thead><tr><th>Variant</th><th>Size</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>Classic</td><td>2.5 × 6.15 (ft)</td><td>Rs.449/-</td></tr>
+<tr><td>Premium</td><td>2.5 × 6.15 (ft)</td><td>Rs.499/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Crockery Cabinet or Multi Purpose Almirah variant" class="variant-select"><option data-price="449" value="Classic • 2.5 × 6.15 (ft)">Classic • 2.5 × 6.15 (ft) — Rs.449/-</option><option data-price="499" value="Premium • 2.5 × 6.15 (ft)">Premium • 2.5 × 6.15 (ft) — Rs.499/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Crockery Cabinet or Multi Purpose Almirah" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Crockery Cabinet or Multi Purpose Almirah" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery office-chair-gallery gallery-55">
+<img decoding="async" loading="lazy" src="Low Mesh Chair.jpeg"/>
+<img decoding="async" loading="lazy" src="Medium Mesh Chair.jpeg"/>
+<img decoding="async" loading="lazy" src="Medium Mesh Chair Back.jpeg"/>
+<img decoding="async" loading="lazy" src="Headrest Chair.jpeg"/>
+<img decoding="async" loading="lazy" src="Headrest Chair Back.jpeg"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Black Office Chair</h2>
+<table class="price-table">
+<thead><tr><th>Variant</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>Zig Zag Mesh</td><td>Rs.199/-</td></tr>
+<tr><td>Lumbar Mesh</td><td>Rs.299/-</td></tr>
+<tr><td>Headrest Mesh</td><td>Rs.349/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Black Office Chair variant" class="variant-select"><option data-price="199" value="Zig Zag Mesh">Zig Zag Mesh — Rs.199/-</option><option data-price="299" value="Lumbar Mesh">Lumbar Mesh — Rs.299/-</option><option data-price="349" value="Headrest Mesh">Headrest Mesh — Rs.349/-</option></select><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Black Office Chair" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Basic Table.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Table</h2><table class="price-table"><thead><tr><th>Size</th><th>Height</th><th>Rent</th></tr></thead><tbody><tr><td>2 × 3 (ft)</td><td>2.5 ft</td><td>Rs.149/-</td></tr><tr><td>2.5 × 4 (ft)</td><td>2.5 ft</td><td>Rs.199/-</td></tr></tbody></table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Table variant" class="variant-select"><option data-price="149" value="2 × 3 (ft) • 2.5 ft">2 × 3 (ft) • 2.5 ft — Rs.149/-</option><option data-price="199" value="2.5 × 4 (ft) • 2.5 ft">2.5 × 4 (ft) • 2.5 ft — Rs.199/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Table" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Table" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Computer One.png?w=800"/>
+<img decoding="async" loading="lazy" src="ComputerTable2.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Computer Table</h2>
+<table class="price-table">
+<thead><tr><th>Variant</th><th>Size</th><th>Height</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>One Side Storage</td><td>2 × 3 (ft)</td><td>2.5 ft</td><td>Rs.249/-</td></tr>
+<tr><td>Both Side Storage</td><td>2 × 4 (ft)</td><td>2.5 ft</td><td>Rs.299/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Computer Table variant" class="variant-select"><option data-price="249" value="One Side Storage • 2 × 3 (ft) • 2.5 ft">One Side Storage • 2 × 3 (ft) • 2.5 ft — Rs.249/-</option><option data-price="299" value="Both Side Storage • 2 × 4 (ft) • 2.5 ft">Both Side Storage • 2 × 4 (ft) • 2.5 ft — Rs.299/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Computer Table" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Computer Table" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Coffee Table 1.png?w=800"/>
+<img decoding="async" loading="lazy" src="Coffee Table2.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Coffee Table</h2>
+<table class="price-table">
+<thead><tr><th>Variant</th><th>Size</th><th>Height</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>Essential</td><td>1.5 × 2.5 (ft)</td><td>2.5 ft</td><td>Rs.149/-</td></tr>
+<tr><td>Classic</td><td>1.5 × 2.5 (ft)</td><td>2.5 ft</td><td>Rs.199/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Coffee Table variant" class="variant-select"><option data-price="149" value="Essential • 1.5 × 2.5 (ft) • 2.5 ft">Essential • 1.5 × 2.5 (ft) • 2.5 ft — Rs.149/-</option><option data-price="199" value="Classic • 1.5 × 2.5 (ft) • 2.5 ft">Classic • 1.5 × 2.5 (ft) • 2.5 ft — Rs.199/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Coffee Table" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Coffee Table" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Foldable Table.png?w=800"/>
+<img decoding="async" loading="lazy" src="Foldable Table DD.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Foldable Table</h2>
+<table class="price-table">
+<thead>
+<tr>
+<th>Variant</th>
+<th>1.5 × 2.5 (ft)</th>
+<th>2 × 3 (ft)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard</td>
+<td>Rs.199/-</td>
+<td>Rs.249/-</td>
+</tr>
+<tr>
+<td>Double Decker</td>
+<td>Rs.249/-</td>
+<td>Rs.299/-</td>
+</tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Foldable Table variant" class="variant-select"><option data-price="199" value="Standard • 1.5 × 2.5 (ft)">Standard • 1.5 × 2.5 (ft) — Rs.199/-</option><option data-price="249" value="Standard • 2 × 3 (ft)">Standard • 2 × 3 (ft) — Rs.249/-</option><option data-price="249" value="Double Decker • 1.5 × 2.5 (ft)">Double Decker • 1.5 × 2.5 (ft) — Rs.249/-</option><option data-price="299" value="Double Decker • 2 × 3 (ft)">Double Decker • 2 × 3 (ft) — Rs.299/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Foldable Table" class="color-select"><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Foldable Table" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Queen Double Bed.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Wooden Double Bed With Storage</h2>
+<table class="price-table">
+<thead>
+<tr>
+<th>Size</th>
+<th>Rent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5 × 6 (ft)</td>
+<td>Rs.799/-</td>
+</tr>
+<tr>
+<td>6 × 6 (ft)</td>
+<td>Rs.899/-</td>
+</tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Wooden Double Bed With Storage variant" class="variant-select"><option data-price="799" value="5 × 6 (ft)">5 × 6 (ft) — Rs.799/-</option><option data-price="899" value="6 × 6 (ft)">6 × 6 (ft) — Rs.899/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for Wooden Double Bed With Storage" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Wooden Double Bed With Storage" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Sofa Set.png?w=800"/>
+<img decoding="async" loading="lazy" src="Sofa Color.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Sofa Set and Table</h2>
+<p class="desc">Swipe to the next image for sofa colors, then enter your chosen color code (1–10) below.</p>
+<table class="price-table">
+<thead><tr><th>Variant</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>2 Seater Sofa</td><td>Rs.499/-</td></tr>
+<tr><td>3 Seater Sofa</td><td>Rs.699/-</td></tr>
+<tr><td>5 Seater Sofa</td><td>Rs.999/-</td></tr>
+<tr><td>Center Table</td><td>Rs.149/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Sofa Set and Table variant" class="variant-select"><option data-price="499" value="2 Seater Sofa">2 Seater Sofa — Rs.499/-</option><option data-price="699" value="3 Seater Sofa">3 Seater Sofa — Rs.699/-</option><option data-price="999" value="5 Seater Sofa">5 Seater Sofa — Rs.999/-</option><option data-price="149" value="Center Table">Center Table — Rs.149/-</option></select><div class="product-option-field sofa-code-field"><label class="cart-label">Sofa color code (1–10) — swipe to next image to see colors</label><input aria-label="Sofa color code from 1 to 10" class="sofa-code-input" inputmode="numeric" max="10" min="1" placeholder="Enter color code: 1 to 10" step="1" type="number"/></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Sofa Set and Table" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card furniture-item">
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="TV Unit.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">TV Unit</h2>
+<table class="price-table">
+<thead><tr><th>Size</th><th>Rent</th></tr></thead>
+<tbody>
+<tr><td>5 ft</td><td>Rs.399/-</td></tr>
+<tr><td>6 ft</td><td>Rs.499/-</td></tr>
+</tbody>
+</table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select TV Unit variant" class="variant-select"><option data-price="399" value="5 ft">5 ft — Rs.399/-</option><option data-price="499" value="6 ft">6 ft — Rs.499/-</option></select><div class="product-option-field"><label class="cart-label">Choose color</label><select aria-label="Choose color for TV Unit" class="color-select"><option value="White">White</option><option value="Wenge">Wenge</option><option value="Walnut">Walnut</option><option value="Wooden">Wooden</option></select></div><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="TV Unit" type="button">Add to cart</button></div></div></div>
+</section>
+<!-- ==================== ELECTRONICS ITEMS ==================== -->
+<section class="product-card electronics-item hidden">
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Monitor.jpg?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Monitor Full HD</h2><table class="price-table"><thead><tr><th>Size</th><th>Resolution</th><th>Rent</th></tr></thead><tbody><tr><td>24 Inch</td><td>Full HD</td><td>Rs.599/-</td></tr></tbody></table>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Monitor Full HD variant" class="variant-select"><option data-price="599" value="24 Inch • Full HD">24 Inch • Full HD — Rs.599/-</option></select><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Monitor Full HD" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card electronics-item hidden">
+<div class="dots-container">
+<span class="dot active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Fridge 1.png?w=800"/>
+<img decoding="async" loading="lazy" src="Fridge 2.png?w=800"/>
+<img decoding="async" loading="lazy" src="DD Fridge1.png?w=800"/>
+<img decoding="async" loading="lazy" src="DD Fridge2.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Refrigerator or Fridge</h2><br/>
+<table class="price-table">
+<thead>
+<tr>
+<th>Variant</th>
+<th>Capacity</th>
+<th>Rent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single Door</td>
+<td>185 Litre</td>
+<td>Rs.599/-</td>
+</tr>
+<tr>
+<td>Double Door</td>
+<td>245 Litre</td>
+<td>Rs.1199/-</td>
+</tr>
+</tbody>
+</table>
+<p class="desc">
+                Repair &amp; Maintenance — Absolutely Free From Our Side
+            </p>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Refrigerator or Fridge variant" class="variant-select"><option data-price="599" value="Single Door • 185 Litre">Single Door • 185 Litre — Rs.599/-</option><option data-price="1199" value="Double Door • 245 Litre">Double Door • 245 Litre — Rs.1199/-</option></select><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Refrigerator or Fridge" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card electronics-item hidden">
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Washing Machine.png?w=800"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Fully Automatic Washing Machine Top Loaded</h2><table class="price-table"><thead><tr><th>Capacity</th><th>Type</th><th>Rent</th></tr></thead><tbody><tr><td>6–7 Kg</td><td>Fully Automatic Top Load</td><td>Rs.649/-</td></tr></tbody></table>
+<p class="desc">
+                Installation | Repair &amp; Maintenance — Absolutely Free From Our Side
+            </p>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Fully Automatic Washing Machine Top Loaded variant" class="variant-select"><option data-price="649" value="6–7 Kg • Fully Automatic Top Load">6–7 Kg • Fully Automatic Top Load — Rs.649/-</option></select><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Fully Automatic Washing Machine Top Loaded" type="button">Add to cart</button></div></div></div>
+</section>
+<section class="product-card electronics-item hidden">
+<div class="image-gallery gallery-60">
+<img decoding="async" loading="lazy" src="Television.jpg"/>
+</div>
+<div class="info-panel">
+<h2 class="title">Television</h2><br/>
+<table class="price-table">
+<thead>
+<tr>
+<th>Size</th>
+<th>Ultra HD</th>
+<th>LED</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>43 Inch</td>
+<td>Rs.1299/-</td>
+<td>Rs.1499/-</td>
+</tr>
+<tr>
+<td>55 Inch</td>
+<td>Rs.1799/-</td>
+<td>Rs.1999/-</td>
+</tr>
+</tbody>
+</table>
+<p class="desc">
+                Installation | Repair &amp; Maintenance — Absolutely Free From Our Side
+            </p>
+<div class="add-to-cart-panel"><label class="cart-label">Select variant</label><select aria-label="Select Television variant" class="variant-select"><option data-price="1299" value="43 Inch • Ultra HD">43 Inch • Ultra HD — Rs.1299/-</option><option data-price="1499" value="43 Inch • LED">43 Inch • LED — Rs.1499/-</option><option data-price="1799" value="55 Inch • Ultra HD">55 Inch • Ultra HD — Rs.1799/-</option><option data-price="1999" value="55 Inch • LED">55 Inch • LED — Rs.1999/-</option></select><div class="cart-controls"><label class="qty-label">Qty</label><input aria-label="Quantity" class="qty-input" inputmode="numeric" max="999" min="1" type="number" value="1"/><button class="add-cart-btn" data-product="Television" type="button">Add to cart</button></div></div></div>
+</section>
+</div>
 <script>
 
 /* ==================== IMAGE LOADING ==================== */
@@ -1279,6 +1250,461 @@ document.querySelectorAll('.product-card').forEach(card => {
 });
 
 </script>
+<button aria-label="Open rental cart" id="cart-floating" type="button">🛒 View Cart <span id="cart-count">0</span></button>
+<div class="cart-modal" hidden id="cart-modal">
+  <div aria-labelledby="cart-heading" aria-modal="true" class="cart-dialog" role="dialog">
+    <div class="cart-heading-row"><h2 id="cart-heading">Your Rental Order Summary</h2><button aria-label="Close cart" id="cart-close" type="button">✕</button></div>
+    <form class="customer-fields" id="customer-form" novalidate>
+      <label>Name <span class="required-star">*</span><input id="customer-name" name="name" type="text" placeholder="Enter full name" autocomplete="name" maxlength="100" required/></label>
+      <label>Phone <span class="required-star">*</span><input id="customer-phone" name="phone" type="tel" inputmode="tel" placeholder="Enter mobile number" autocomplete="tel" maxlength="18" required/></label>
+      <label class="address-field">Delivery Address <span class="required-star">*</span><textarea id="customer-address" name="address" placeholder="Flat / building, street, area, city and PIN code" autocomplete="street-address" rows="3" maxlength="500" required></textarea></label>
+    </form>
+    <h3 class="cart-section-title">Selected Items</h3>
+    <div class="cart-table-wrap" role="region" aria-label="Selected rental items table" tabindex="0">
+      <table class="cart-table">
+        <thead><tr><th scope="col">Product / Variant</th><th scope="col">Qty</th><th scope="col" class="desktop-price-column">Rent</th><th scope="col">Amount</th><th scope="col" aria-label="Remove item"></th></tr></thead>
+        <tbody id="cart-items"></tbody>
+      </table>
+    </div>
+    <div class="cart-total"><span>Monthly Rent</span><strong id="cart-total">₹0</strong></div>
+    <div class="cart-actions">
+      <div class="download-order-section">
+        <button id="pdf-download" type="button">Download PDF</button>
+        <p class="download-instruction">After downloading, send this PDF to WhatsApp No: <strong>8727805793</strong> for placing an order.</p>
+      </div>
+      <button id="clear-cart" type="button">Clear Cart</button>
+    </div>
+  </div>
+</div>
+<section id="print-summary" aria-label="Printable rental enquiry" hidden></section>
+<script>
+/* MoSu Furniture — standalone cart, validation, proper tables and PDF download.
+   PDF is generated in the visitor's browser without any external library. */
+const CART_KEY = 'mosu-rental-cart-v1';
+let cart = [];
+try {
+  const saved = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+  if (Array.isArray(saved)) {
+    cart = saved.filter(x => x && typeof x.product === 'string' &&
+      typeof x.variant === 'string' && Number.isFinite(x.price) &&
+      x.price >= 0 && Number.isInteger(x.qty) && x.qty > 0);
+  }
+} catch (e) { /* local storage may be unavailable */ }
 
-</body>
+const modal = document.getElementById('cart-modal');
+const money = n => '₹' + Number(n).toLocaleString('en-IN');
+const cleanQty = n => Math.min(999, Math.max(1, Math.floor(Number(n) || 1)));
+const totalRent = () => cart.reduce((sum, x) => sum + x.price * x.qty, 0);
+const saveCart = () => {
+  try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {}
+  renderCart();
+};
+
+/* Selection of product variant, colour, quantity, and optional sofa colour code. */
+document.querySelectorAll('.add-cart-btn').forEach(btn => btn.addEventListener('click', () => {
+  const panel = btn.closest('.add-to-cart-panel');
+  const select = panel.querySelector('.variant-select');
+  const option = select.selectedOptions[0];
+  const qty = cleanQty(panel.querySelector('.qty-input').value);
+  const product = btn.dataset.product;
+  const price = Number(option.dataset.price);
+  const colorSelect = panel.querySelector('.color-select');
+  const sofaCodeInput = panel.querySelector('.sofa-code-input');
+  let variant = option.value;
+
+  if (colorSelect) variant += ' | Color: ' + colorSelect.value;
+  if (sofaCodeInput) {
+    const raw = sofaCodeInput.value.trim();
+    if (!/^(10|[1-9])$/.test(raw)) {
+      sofaCodeInput.setCustomValidity('Enter a sofa color code from 1 to 10.');
+      sofaCodeInput.reportValidity();
+      sofaCodeInput.focus();
+      return;
+    }
+    sofaCodeInput.setCustomValidity('');
+    variant += ' | Sofa color code: ' + raw;
+  }
+  if (!Number.isFinite(price) || price < 0) return;
+
+  const found = cart.find(x => x.product === product && x.variant === variant && x.price === price);
+  if (found) found.qty = Math.min(999, found.qty + qty);
+  else cart.push({ product, variant, price, qty });
+  saveCart();
+  btn.textContent = '✓ Added';
+  setTimeout(() => { btn.textContent = 'Add to cart'; }, 1100);
+}));
+
+document.querySelectorAll('.sofa-code-input').forEach(input => {
+  input.addEventListener('input', () => input.setCustomValidity(''));
+});
+
+function makeCell(className, content, tag = 'td') {
+  const el = document.createElement(tag);
+  el.className = className;
+  if (content !== undefined) el.textContent = content;
+  return el;
+}
+function renderCart() {
+  document.getElementById('cart-count').textContent = cart.reduce((sum, x) => sum + x.qty, 0);
+  const tbody = document.getElementById('cart-items');
+  tbody.replaceChildren();
+
+  if (!cart.length) {
+    const tr = document.createElement('tr');
+    const td = makeCell('cart-empty', 'Your cart is empty. Add products to prepare your rental order.');
+    td.colSpan = 5;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+
+  cart.forEach((item, index) => {
+    const row = document.createElement('tr');
+    const info = makeCell('cell-item');
+    const name = document.createElement('strong');
+    name.className = 'item-name';
+    name.textContent = item.product;
+    const details = document.createElement('span');
+    details.className = 'item-variant';
+    details.textContent = item.variant;
+    const unitOnMobile = document.createElement('span');
+    unitOnMobile.className = 'mobile-unit-price';
+    unitOnMobile.textContent = 'Rent: ' + money(item.price) + ' each';
+    info.append(name, details, unitOnMobile);
+
+    const qtyCell = makeCell('cell-qty');
+    const qty = document.createElement('input');
+    qty.type = 'number'; qty.className = 'cart-qty'; qty.inputMode = 'numeric';
+    qty.min = '1'; qty.max = '999'; qty.value = item.qty;
+    qty.setAttribute('aria-label', 'Quantity for ' + item.product);
+    qty.addEventListener('change', () => { item.qty = cleanQty(qty.value); saveCart(); });
+    qtyCell.appendChild(qty);
+
+    const unitPrice = makeCell('cell-price desktop-price-column', money(item.price));
+    const lineTotal = makeCell('cell-total', money(item.price * item.qty));
+    const removeCell = makeCell('cell-remove');
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button'; removeBtn.className = 'remove-item'; removeBtn.textContent = '×';
+    removeBtn.setAttribute('aria-label', 'Remove ' + item.product);
+    removeBtn.addEventListener('click', () => { cart.splice(index, 1); saveCart(); });
+    removeCell.appendChild(removeBtn);
+    row.append(info, qtyCell, unitPrice, lineTotal, removeCell);
+    tbody.appendChild(row);
+  });
+  document.getElementById('cart-total').textContent = money(totalRent());
+}
+
+function closeCart() {
+  modal.hidden = true;
+  document.body.style.overflow = '';
+}
+document.getElementById('cart-floating').addEventListener('click', () => {
+  renderCart();
+  modal.hidden = false;
+  document.body.style.overflow = 'hidden';
+  document.getElementById('cart-close').focus();
+});
+document.getElementById('cart-close').addEventListener('click', closeCart);
+modal.addEventListener('click', e => { if (e.target === modal) closeCart(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) closeCart(); });
+document.getElementById('clear-cart').addEventListener('click', () => {
+  if (cart.length && confirm('Remove all selected items?')) { cart = []; saveCart(); }
+});
+
+const nameField = document.getElementById('customer-name');
+const phoneField = document.getElementById('customer-phone');
+const addressField = document.getElementById('customer-address');
+phoneField.addEventListener('input', () => phoneField.setCustomValidity(''));
+
+function validateOrder() {
+  if (!cart.length) { alert('Please add at least one item to your cart.'); return null; }
+  const name = nameField.value.trim();
+  const phone = phoneField.value.trim();
+  const address = addressField.value.trim();
+  if (!name) { nameField.value = ''; nameField.reportValidity(); nameField.focus(); return null; }
+  if (!phone) { phoneField.reportValidity(); phoneField.focus(); return null; }
+  // Accept an Indian mobile number with or without +91 country code.
+  const digits = phone.replace(/\D/g, '');
+  if (!/^(?:91)?[6-9]\d{9}$/.test(digits)) {
+    phoneField.setCustomValidity('Enter a valid 10-digit Indian mobile number (with optional +91).');
+    phoneField.reportValidity(); phoneField.focus(); return null;
+  }
+  phoneField.setCustomValidity('');
+  if (!address) { addressField.value = ''; addressField.reportValidity(); addressField.focus(); return null; }
+  return { name, phone, address };
+}
+
+function printElement(tag, content, parent, className) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  el.textContent = content;
+  parent.appendChild(el);
+  return el;
+}
+function buildPrintableSummary(customer) {
+  // CSS print backup with a full item table and a structured customer table.
+  const section = document.getElementById('print-summary');
+  section.replaceChildren();
+  section.hidden = false;
+  printElement('h1', 'MoSu Furniture', section);
+  printElement('h2', 'Rental Order Summary', section);
+  printElement('p', 'Date: ' + new Date().toLocaleDateString('en-IN'), section, 'print-meta');
+  const customerTable = document.createElement('table');
+  customerTable.className = 'print-customer-table';
+  [['Name', customer.name], ['Phone', customer.phone], ['Delivery address', customer.address]].forEach(pair => {
+    const tr = document.createElement('tr');
+    pair.forEach(t => printElement('td', t, tr));
+    customerTable.appendChild(tr);
+  });
+  section.appendChild(customerTable);
+  const table = document.createElement('table');
+  table.className = 'print-order-table';
+  const thead = document.createElement('thead');
+  const headRow = document.createElement('tr');
+  ['#', 'Product', 'Variant / Colour', 'Qty', 'Unit Rent', 'Amount'].forEach(t => printElement('th', t, headRow));
+  thead.appendChild(headRow); table.appendChild(thead);
+  const body = document.createElement('tbody');
+  cart.forEach((x, i) => {
+    const row = document.createElement('tr');
+    [String(i + 1), x.product, x.variant, String(x.qty), money(x.price), money(x.price * x.qty)]
+      .forEach(v => printElement('td', v, row));
+    body.appendChild(row);
+  });
+  table.appendChild(body); section.appendChild(table);
+  printElement('p', 'Monthly Rent: ' + money(totalRent()), section, 'print-grand-total');
+}
+
+/* Raster-based, multi-page A4 PDF creation: no CDN or external services needed.
+   The canvas text retains Unicode (₹ and ×), and the PDF is a valid shareable file. */
+const PDF_WIDTH = 1240;
+const PDF_HEIGHT = 1754;
+const PDF_MARGIN = 60;
+const PDF_RIGHT = PDF_WIDTH - PDF_MARGIN;
+const PDF_COL_WIDTHS = [49, 284, 345, 82, 165, 195]; // sum = 1120
+const PDF_COL_LABELS = ['#', 'Product', 'Variant / Colour', 'Qty', 'Unit Rent', 'Amount'];
+
+function textLines(ctx, text, maxWidth) {
+  const paragraphs = String(text).split(/\r?\n/);
+  const lines = [];
+  for (const paragraph of paragraphs) {
+    if (!paragraph) { lines.push(''); continue; }
+    let line = '';
+    for (const word of paragraph.split(/\s+/)) {
+      const candidate = line ? line + ' ' + word : word;
+      if (ctx.measureText(candidate).width <= maxWidth) { line = candidate; continue; }
+      if (line) { lines.push(line); line = ''; }
+      if (ctx.measureText(word).width <= maxWidth) { line = word; continue; }
+      let piece = '';
+      for (const character of word) {
+        if (piece && ctx.measureText(piece + character).width > maxWidth) {
+          lines.push(piece); piece = '';
+        }
+        piece += character;
+      }
+      line = piece;
+    }
+    lines.push(line);
+  }
+  return lines;
+}
+function drawLines(ctx, lines, x, y, lineHeight) {
+  lines.forEach((line, i) => ctx.fillText(line, x, y + i * lineHeight));
+}
+function makePdfPage(pageNumber, continuation) {
+  const canvas = document.createElement('canvas');
+  canvas.width = PDF_WIDTH; canvas.height = PDF_HEIGHT;
+  const ctx = canvas.getContext('2d');
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, PDF_WIDTH, PDF_HEIGHT);
+  ctx.fillStyle = '#4b260f'; ctx.fillRect(0, 0, PDF_WIDTH, 15);
+  ctx.font = 'bold 47px Arial, sans-serif';
+  ctx.fillText('MoSu Furniture', PDF_MARGIN, 61);
+  ctx.fillStyle = '#a87950'; ctx.font = '25px Arial, sans-serif';
+  ctx.fillText(continuation ? 'RENTAL ORDER SUMMARY  ·  CONTINUED' : 'RENTAL ORDER SUMMARY', PDF_MARGIN, 128);
+  ctx.strokeStyle = '#dec8b2'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(PDF_MARGIN, 176); ctx.lineTo(PDF_RIGHT, 176); ctx.stroke();
+  return { canvas, ctx, number: pageNumber, y: 212 };
+}
+function drawCustomerDetails(page, customer) {
+  const { ctx } = page;
+  const startY = page.y;
+  ctx.fillStyle = '#f8f0e2';
+  ctx.fillRect(PDF_MARGIN, startY, PDF_RIGHT - PDF_MARGIN, 64);
+  ctx.fillStyle = '#4b260f'; ctx.font = 'bold 25px Arial, sans-serif';
+  ctx.fillText('Customer Details', PDF_MARGIN + 17, startY + 18);
+  ctx.font = '21px Arial, sans-serif';
+  ctx.fillStyle = '#4b4b4b';
+  ctx.fillText('Date: ' + new Date().toLocaleDateString('en-IN'), PDF_RIGHT - 238, startY + 21);
+  let y = startY + 81;
+  const data = [['Name', customer.name], ['Phone', customer.phone], ['Delivery address', customer.address]];
+  data.forEach(([label, value], i) => {
+    ctx.font = '22px Arial, sans-serif';
+    const lines = textLines(ctx, value, 854);
+    const h = Math.max(55, lines.length * 31 + 22);
+    ctx.fillStyle = i % 2 ? '#ffffff' : '#fffaf5';
+    ctx.fillRect(PDF_MARGIN, y, PDF_RIGHT - PDF_MARGIN, h);
+    ctx.strokeStyle = '#e9dfd7'; ctx.strokeRect(PDF_MARGIN, y, PDF_RIGHT - PDF_MARGIN, h);
+    ctx.fillStyle = '#5e554e'; ctx.font = 'bold 21px Arial, sans-serif';
+    ctx.fillText(label, PDF_MARGIN + 13, y + 16);
+    ctx.fillStyle = '#262222'; ctx.font = '22px Arial, sans-serif';
+    drawLines(ctx, lines, PDF_MARGIN + 235, y + 14, 31);
+    y += h;
+  });
+  page.y = y + 31;
+}
+function drawPdfTableHeading(page) {
+  const { ctx } = page;
+  const y = page.y;
+  ctx.fillStyle = '#4b260f'; ctx.fillRect(PDF_MARGIN, y, PDF_RIGHT - PDF_MARGIN, 62);
+  ctx.font = 'bold 20px Arial, sans-serif'; ctx.fillStyle = '#fff';
+  let x = PDF_MARGIN;
+  PDF_COL_LABELS.forEach((label, i) => {
+    ctx.fillText(label, x + 11, y + 20);
+    x += PDF_COL_WIDTHS[i];
+  });
+  page.y = y + 62;
+}
+function drawPdfRow(page, item, index) {
+  const { ctx } = page;
+  ctx.font = '21px Arial, sans-serif';
+  const productLines = textLines(ctx, item.product, PDF_COL_WIDTHS[1] - 21);
+  const variantLines = textLines(ctx, item.variant, PDF_COL_WIDTHS[2] - 23);
+  const rowHeight = Math.max(71, Math.max(productLines.length, variantLines.length) * 29 + 25);
+  if (page.y + rowHeight > PDF_HEIGHT - 198) return false;
+  const y = page.y;
+  ctx.fillStyle = index % 2 ? '#fffaf5' : '#fff';
+  ctx.fillRect(PDF_MARGIN, y, PDF_RIGHT - PDF_MARGIN, rowHeight);
+  ctx.strokeStyle = '#e5e0dc'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(PDF_MARGIN, y + rowHeight); ctx.lineTo(PDF_RIGHT, y + rowHeight); ctx.stroke();
+  const positions = [PDF_MARGIN];
+  PDF_COL_WIDTHS.forEach(width => positions.push(positions[positions.length - 1] + width));
+  ctx.font = '21px Arial, sans-serif'; ctx.fillStyle = '#252525';
+  ctx.fillText(String(index + 1), positions[0] + 12, y + 17);
+  drawLines(ctx, productLines, positions[1] + 10, y + 15, 29);
+  ctx.font = '20px Arial, sans-serif'; ctx.fillStyle = '#4b4b4b';
+  drawLines(ctx, variantLines, positions[2] + 10, y + 15, 29);
+  ctx.fillStyle = '#252525'; ctx.font = '21px Arial, sans-serif';
+  ctx.fillText(String(item.qty), positions[3] + 10, y + 17);
+  ctx.fillText(money(item.price), positions[4] + 10, y + 17);
+  ctx.font = 'bold 21px Arial, sans-serif';
+  ctx.fillText(money(item.qty * item.price), positions[5] + 10, y + 17);
+  page.y = y + rowHeight;
+  return true;
+}
+function drawPdfTotal(page) {
+  const { ctx } = page;
+  if (page.y + 112 > PDF_HEIGHT - 97) return false;
+  const y = page.y + 25;
+  ctx.fillStyle = '#f8f0e2'; ctx.fillRect(PDF_MARGIN, y, PDF_RIGHT - PDF_MARGIN, 77);
+  ctx.fillStyle = '#4b260f'; ctx.font = 'bold 27px Arial, sans-serif';
+  ctx.fillText('MONTHLY RENT', PDF_MARGIN + 17, y + 23);
+  ctx.textAlign = 'right'; ctx.font = 'bold 33px Arial, sans-serif';
+  ctx.fillText(money(totalRent()), PDF_RIGHT - 18, y + 21);
+  ctx.textAlign = 'left';
+  return true;
+}
+function drawPdfFooter(page, totalPages) {
+  const ctx = page.ctx;
+  ctx.strokeStyle = '#dec8b2'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(PDF_MARGIN, PDF_HEIGHT - 69); ctx.lineTo(PDF_RIGHT, PDF_HEIGHT - 69); ctx.stroke();
+  ctx.font = '18px Arial, sans-serif'; ctx.fillStyle = '#777';
+  ctx.fillText('MoSu Furniture  |  Rental Enquiry  |  WhatsApp: +91 8727805793 (Sagar)', PDF_MARGIN, PDF_HEIGHT - 51);
+  ctx.textAlign = 'right'; ctx.fillText(`Page ${page.number} of ${totalPages}`, PDF_RIGHT, PDF_HEIGHT - 51);
+  ctx.textAlign = 'left';
+}
+
+function canvasJpegBytes(canvas) {
+  const base64 = canvas.toDataURL('image/jpeg', 0.92).split(',')[1];
+  const binary = atob(base64);
+  const arr = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) arr[i] = binary.charCodeAt(i);
+  return arr;
+}
+function encodePdfImages(pages) {
+  // PDF 1.4: pages are JPEG XObjects, each placed on an A4 media box.
+  const encoder = new TextEncoder();
+  const chunks = []; const positions = [0];
+  let current = 0;
+  const add = data => { chunks.push(data); current += data.length; };
+  const addText = s => add(encoder.encode(s));
+  const objStart = id => { positions[id] = current; addText(id + ' 0 obj\n'); };
+  const objEnd = () => addText('\nendobj\n');
+  addText('%PDF-1.4\n% MoSu PDF\n');
+  objStart(1); addText('<< /Type /Catalog /Pages 2 0 R >>'); objEnd();
+  objStart(2);
+  const refs = pages.map((_, i) => (5 + 3 * i) + ' 0 R').join(' ');
+  addText('<< /Type /Pages /Count ' + pages.length + ' /Kids [ ' + refs + ' ] >>'); objEnd();
+  pages.forEach((page, i) => {
+    const imgId = 3 + i * 3, contentId = 4 + i * 3, pageId = 5 + i * 3;
+    const bytes = canvasJpegBytes(page.canvas);
+    objStart(imgId);
+    addText('<< /Type /XObject /Subtype /Image /Width ' + PDF_WIDTH +
+      ' /Height ' + PDF_HEIGHT + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + bytes.length + ' >>\nstream\n');
+    add(bytes); addText('\nendstream'); objEnd();
+    const pdfCommands = 'q\n595.28 0 0 841.89 0 0 cm\n/Im0 Do\nQ\n';
+    objStart(contentId);
+    addText('<< /Length ' + encoder.encode(pdfCommands).length + ' >>\nstream\n' + pdfCommands + 'endstream'); objEnd();
+    objStart(pageId);
+    addText('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] ' +
+      '/Resources << /XObject << /Im0 ' + imgId + ' 0 R >> >> /Contents ' + contentId + ' 0 R >>');
+    objEnd();
+  });
+  const startXref = current;
+  addText('xref\n0 ' + (pages.length * 3 + 3) + '\n0000000000 65535 f \n');
+  for (let i = 1; i <= pages.length * 3 + 2; i++) {
+    addText(String(positions[i]).padStart(10, '0') + ' 00000 n \n');
+  }
+  addText('trailer\n<< /Size ' + (pages.length * 3 + 3) + ' /Root 1 0 R >>\nstartxref\n' + startXref + '\n%%EOF');
+  return new Blob(chunks, { type: 'application/pdf' });
+}
+function createOrderPdf(customer) {
+  let page = makePdfPage(1, false);
+  const pages = [page];
+  drawCustomerDetails(page, customer);
+  if (page.y > PDF_HEIGHT - 300) {
+    page = makePdfPage(2, true); pages.push(page);
+  }
+  drawPdfTableHeading(page);
+  cart.forEach((item, i) => {
+    if (!drawPdfRow(page, item, i)) {
+      page = makePdfPage(pages.length + 1, true);
+      pages.push(page); drawPdfTableHeading(page);
+      drawPdfRow(page, item, i);
+    }
+  });
+  if (!drawPdfTotal(page)) {
+    page = makePdfPage(pages.length + 1, true);
+    pages.push(page); drawPdfTotal(page);
+  }
+  pages.forEach(p => drawPdfFooter(p, pages.length));
+  return encodePdfImages(pages);
+}
+function pdfFilename(name) {
+  const clean = name.normalize('NFKD').replace(/[^a-zA-Z0-9-]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 42) || 'Customer';
+  return 'MoSu_Rental_Order_' + clean + '_' + new Date().toISOString().slice(0, 10) + '.pdf';
+}
+function downloadPdf(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url; link.download = filename;
+  document.body.appendChild(link); link.click(); link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 15000);
+}
+function makePdf(customer) {
+  buildPrintableSummary(customer);
+  return createOrderPdf(customer);
+}
+document.getElementById('pdf-download').addEventListener('click', () => {
+  const customer = validateOrder();
+  if (!customer) return;
+  try { downloadPdf(makePdf(customer), pdfFilename(customer.name)); }
+  catch (error) {
+    console.error('PDF generation failed', error);
+    alert('PDF download failed. Please use the browser Print option and choose Save as PDF.');
+    window.print();
+  }
+});
+
+renderCart();
+
+</script></body>
 </html>
